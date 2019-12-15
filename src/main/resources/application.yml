@@ -6,7 +6,7 @@ spring:
   datasource:
     username: root
     password: qja18344981008
-    url: jdbc:mysql://49.234.192.208:3306/mypro?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://49.234.192.208:3306/onlineEdu_APP?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
 mybatis:

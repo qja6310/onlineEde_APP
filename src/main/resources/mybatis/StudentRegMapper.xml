@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.newloading.dao.StudentRegDao">
+	<resultMap type="cn.com.newloading.bean.StudentReg" id="stuRegResultMap">
+		<result column="ID" property="id" />
+		<result column="STU_NAME" property="stuName" />
+		<result column="STU_ACCOUNT" property="stuAccount" />
+		<result column="STU_PASSWORD" property="stuPassword" />
+		<result column="STU_STUDY_NUMBER" property="stuStudyNumber" />
+		<result column="REG_TIME" property="regTime" />
+		<result column="AUDIT_TIME" property="auditTime" />
+		<result column="AUDIT_RESULT" property="auditResult" />
+		<result column="DEAL_EXPLAIN" property="dealExplain" />
+		<result column="ADMIN_ID" property="adminId" />
+	</resultMap>
+	
+	<select id="queryStu" resultMap="stuRegResultMap">
+       SELECT ID,STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,AUDIT_TIME,AUDIT_RESULT,DEAL_EXPLAIN,ADMIN_ID
+        FROM t_reg_students WHERE 1 = 1
+       	<if test="stuAccount !=null and stuAccount !=''">
+       			AND STU_ACCOUNT = #{stuAccount} 
+       	</if>
+       	<if test="id !=null and id !=''">
+       			AND ID = #{id} 
+       	</if>
+       ORDER BY ID DESC
+    </select>
+	
+    <insert id="registerStu" keyProperty="id" parameterType="cn.com.newloading.bean.StudentReg">
+    	INSERT INTO t_reg_students (STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME) 
+    	VALUES (#{stuName},#{stuAccount},#{stuPassword},#{stuStudyNumber},#{regTime})
+    </insert>
+</mapper>

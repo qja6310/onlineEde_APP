@@ -75,11 +75,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<!--JSP动态刷新 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency> -->
 
 		<!-- jsp中使用jstl标签 -->
 		<dependency>
