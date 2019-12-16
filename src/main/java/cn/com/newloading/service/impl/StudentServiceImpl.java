@@ -33,7 +33,7 @@ public class StudentServiceImpl implements StudentService {
 		if(stuList.size() > 0) {
 			return "REGSTU0003";//学号已被注册过
 		}
-		studentReg.setStatus(AuditStatu.PENDING);
+		studentReg.setStatus(AuditStatu.PENDING.getP());
 		Integer stuId = studentRegDao.registerStu(studentReg);//注册到学生注册表
 		StudentReg sr = new StudentReg();
 		sr.setId(String.valueOf(stuId));

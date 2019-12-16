@@ -12,7 +12,7 @@ public class StudentReg extends Student {
 	private String auditResult;//审核结果
 	private String dealExplain;//处理说明
 	private String adminId;//管理员ID
-	private AuditStatu status;//状态
+	private String status;//状态
 	public StudentReg() {
 		
 	}
@@ -46,10 +46,10 @@ public class StudentReg extends Student {
 	public void setAdminId(String adminId) {
 		this.adminId = adminId;
 	}
-	public AuditStatu getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(AuditStatu pending) {
+	public void setStatus(String pending) {
 		this.status = pending;
 	}
 	
