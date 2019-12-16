@@ -1,5 +1,7 @@
 package cn.com.newloading.bean;
 
+import cn.com.newloading.statics.AuditStatu;
+
 /*
  * 学生注册,管理员审核
  */
@@ -10,7 +12,7 @@ public class StudentReg extends Student {
 	private String auditResult;//审核结果
 	private String dealExplain;//处理说明
 	private String adminId;//管理员ID
-	private String status;//状态
+	private AuditStatu status;//状态
 	public StudentReg() {
 		
 	}
@@ -44,11 +46,11 @@ public class StudentReg extends Student {
 	public void setAdminId(String adminId) {
 		this.adminId = adminId;
 	}
-	public String getStatus() {
+	public AuditStatu getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setStatus(AuditStatu pending) {
+		this.status = pending;
 	}
 	
 }

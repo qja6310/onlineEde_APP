@@ -39,11 +39,11 @@ public class StudentController {
 			String regTime = TimeUtil.dateToString(new Date());
 			studentReg.setRegTime(regTime);
 			String res = studentService.registerStu(studentReg);
-			if ("REGSTU0001".equals(res)) {// 申请失败
-				json.put("retCode", "REGSTU0001");// 提交失败提示码
+			if ("REGSTU0002".equals(res)) {// 申请失败
+				json.put("retCode", "REGSTU0002");// 提交失败提示码
 				json.put("retMsg", "提交失败");
-			} else if ("REGSTU0002".equals(res)) {// 账号重复
-				json.put("retCode", "REGSTU0002");// 账号重复提示码
+			} else if ("REGSTU0001".equals(res)) {// 账号重复
+				json.put("retCode", "REGSTU0001");// 账号重复提示码
 				json.put("retMsg", "登陆账号重复");
 			} else if ("REGSTU0003".equals(res)) {
 				json.put("retCode", "REGSTU0003");// 学号已注册过

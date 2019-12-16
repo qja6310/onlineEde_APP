@@ -9,7 +9,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @SpringBootApplication
 @ServletComponentScan
-@MapperScan("com.camel.dao")
+@MapperScan("cn.com.newloading.dao")
 public class SpringbootApplication extends SpringBootServletInitializer {
 
 	
