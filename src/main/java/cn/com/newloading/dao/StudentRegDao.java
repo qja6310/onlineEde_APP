@@ -15,13 +15,13 @@ public interface StudentRegDao {
 	 * @param student
 	 * @return
 	 */
-	Integer registerStu(StudentReg studentReg);
+	Integer registerStuReg(StudentReg studentReg);
 	
 	/**
 	 * 查询学生注册表
 	 * @return
 	 */
-	List<StudentReg> queryStu(StudentReg studentReg);
+	List<StudentReg> queryStuReg(StudentReg studentReg);
 	
 	/**
 	 * 查账号是否有重复，学号是否有重复
@@ -29,6 +29,6 @@ public interface StudentRegDao {
 	 * @param stuStudyNumber
 	 * @return
 	 */
-	List<StudentReg> queryStuByParms(@Param("stuAccount")String stuAccount,@Param("stuStudyNumber")String stuStudyNumber);
+	List<StudentReg> queryStuRegByParms(@Param("stuAccount")String stuAccount,@Param("stuStudyNumber")String stuStudyNumber);
 	
 }

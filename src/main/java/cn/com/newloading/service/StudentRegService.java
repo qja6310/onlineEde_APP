@@ -5,7 +5,7 @@ import java.util.List;
 import cn.com.newloading.bean.Student;
 import cn.com.newloading.bean.StudentReg;
 
-public interface StudentService {
+public interface StudentRegService {
 
 	/**
 	 * 学生注册表,返回结果标识
@@ -18,7 +18,7 @@ public interface StudentService {
 	 * 查询学生表,可用于登录
 	 * @return
 	 */
-	List<Student> queryStu(Student student);
+	List<StudentReg> queryStuReg(StudentReg studentReg);
 	
 	/**
 	 * 修改学生的信息,返回修改成功的条数

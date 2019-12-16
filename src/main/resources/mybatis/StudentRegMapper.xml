@@ -15,21 +15,28 @@
 		<result column="AUDIT_RESULT" property="auditResult" />
 		<result column="DEAL_EXPLAIN" property="dealExplain" />
 		<result column="ADMIN_ID" property="adminId" />
+		<result column="STATUS" property="status" />
 	</resultMap>
 	
-	<select id="queryStu" resultMap="stuRegResultMap">
-       SELECT ID,STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,AUDIT_TIME,AUDIT_RESULT,DEAL_EXPLAIN,ADMIN_ID
+	<select id="queryStuReg" resultMap="stuRegResultMap">
+       SELECT ID,STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,AUDIT_TIME,AUDIT_RESULT,DEAL_EXPLAIN,ADMIN_ID,STATUS
         FROM t_reg_students WHERE 1 = 1
        	<if test="stuAccount !=null and stuAccount !=''">
-       			AND STU_ACCOUNT = #{stuAccount} 
+       			AND STU_ACCOUNT LIKE CONCAT('%',CONCAT(#{stuAccount},'%')) 
+       	</if>
+       	<if test="stuStudyNumber !=null and stuStudyNumber !=''">
+       			AND STU_STUDY_NUMBER LIKE CONCAT('%',CONCAT(#{stuStudyNumber},'%')) 
+       	</if>
+       	<if test="stuName !=null and stuName !=''">
+       			AND STU_NAME LIKE CONCAT('%',CONCAT(#{stuName} ,'%'))
        	</if>
        	<if test="id !=null and id !=''">
        			AND ID = #{id} 
        	</if>
        ORDER BY ID DESC
     </select>
-    <select id="queryStuByParms" resultMap="stuRegResultMap">
-       SELECT ID,STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,AUDIT_TIME,AUDIT_RESULT,DEAL_EXPLAIN,ADMIN_ID
+    <select id="queryStuRegByParms" resultMap="stuRegResultMap">
+       SELECT ID,STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,AUDIT_TIME,AUDIT_RESULT,DEAL_EXPLAIN,ADMIN_ID,STATUS
         FROM t_reg_students WHERE 1 = 1
        	<if test="stuAccount !=null and stuAccount !=''">
        			AND STU_ACCOUNT = #{stuAccount} 
@@ -40,7 +47,7 @@
        ORDER BY ID DESC
     </select>
 	
-    <insert id="registerStu" keyProperty="id" parameterType="cn.com.newloading.bean.StudentReg">
+    <insert id="registerStuReg" keyProperty="id" parameterType="cn.com.newloading.bean.StudentReg">
     	INSERT INTO t_reg_students (STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,STATUS) 
     	VALUES (#{stuName},#{stuAccount},#{stuPassword},#{stuStudyNumber},#{regTime},#{status})
     </insert>
