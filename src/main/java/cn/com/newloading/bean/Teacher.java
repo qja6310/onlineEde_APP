@@ -6,6 +6,7 @@ public class Teacher {
 	private String teaName;
 	private String teaAccount;//登录账号
 	private String teaPassword;//登录密码
+	private String status;//状态
 	public Teacher() {
 		
 	}
@@ -32,6 +33,12 @@ public class Teacher {
 	}
 	public void setTeaPassword(String teaPassword) {
 		this.teaPassword = teaPassword;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 }

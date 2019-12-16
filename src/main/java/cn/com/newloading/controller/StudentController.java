@@ -38,13 +38,16 @@ public class StudentController {
 			studentReg.setStuStudyNumber(stuStudyNumber);
 			String regTime = TimeUtil.dateToString(new Date());
 			studentReg.setRegTime(regTime);
-			studentReg = (StudentReg) studentService.registerStu(studentReg);
-			if (studentReg == null) {// 申请失败
+			String res = studentService.registerStu(studentReg);
+			if ("REGSTU0001".equals(res)) {// 申请失败
 				json.put("retCode", "REGSTU0001");// 提交失败提示码
 				json.put("retMsg", "提交失败");
-			} else if ("REGSTU0002".equals(studentReg.getId())) {// 账号重复
+			} else if ("REGSTU0002".equals(res)) {// 账号重复
 				json.put("retCode", "REGSTU0002");// 账号重复提示码
 				json.put("retMsg", "登陆账号重复");
+			} else if ("REGSTU0003".equals(res)) {
+				json.put("retCode", "REGSTU0003");// 学号已注册过
+				json.put("retMsg", "该学号已注册过");
 			} else {// 注册成功
 				json.put("retCode", "REGSTU0000");// 提交成功提示码
 				json.put("retMsg", "提交成功");

@@ -19,26 +19,30 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public StudentReg registerStu(Student student) {
+	public String registerStu(Student student) {
 		StudentReg studentReg = (StudentReg) student;
 		//查询注册登陆账号是否可用
-		List<StudentReg> stuList = studentRegDao.queryStu(studentReg);
+		List<StudentReg> stuList = studentRegDao.queryStuByParms(student.getStuAccount(), null);
 		if(stuList.size() > 0) {//登陆账号不可注册
-			StudentReg s = new StudentReg();
-			s.setId("REGSTU0002");//表示账号已被注册过
-			return s;
+			return "REGSTU0001";//表示账号已被注册过
 		}
+		//查询该学号是否已被注册
+		stuList.clear();
+		stuList = studentRegDao.queryStuByParms(null,student.getStuStudyNumber());
+		if(stuList.size() > 0) {
+			return "REGSTU0003";//学号已被注册过
+		}
+		studentReg.setStatus("PENDING");
 		Integer stuId = studentRegDao.registerStu(studentReg);//注册到学生注册表
 		StudentReg sr = new StudentReg();
 		sr.setId(String.valueOf(stuId));
 		stuList.clear();
 		stuList = studentRegDao.queryStu(sr);
 		if(stuList == null || stuList.size() == 0) {//注册失败
-			studentReg = null;
+			return "REGSTU0002";
 		}else {//注册提交成功
-			studentReg = stuList.get(0);
+			return "REGSTU0000";
 		}
-		return studentReg;
 	}
 
 	@Override

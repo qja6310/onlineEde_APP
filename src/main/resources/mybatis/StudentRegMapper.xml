@@ -28,9 +28,20 @@
        	</if>
        ORDER BY ID DESC
     </select>
+    <select id="queryStuByParms" resultMap="stuRegResultMap">
+       SELECT ID,STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,AUDIT_TIME,AUDIT_RESULT,DEAL_EXPLAIN,ADMIN_ID
+        FROM t_reg_students WHERE 1 = 1
+       	<if test="stuAccount !=null and stuAccount !=''">
+       			AND STU_ACCOUNT = #{stuAccount} 
+       	</if>
+       	<if test="stuStudyNumber !=null and stuStudyNumber !=''">
+       			AND STU_STUDY_NUMBER = #{stuStudyNumber} 
+       	</if>
+       ORDER BY ID DESC
+    </select>
 	
     <insert id="registerStu" keyProperty="id" parameterType="cn.com.newloading.bean.StudentReg">
-    	INSERT INTO t_reg_students (STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME) 
-    	VALUES (#{stuName},#{stuAccount},#{stuPassword},#{stuStudyNumber},#{regTime})
+    	INSERT INTO t_reg_students (STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,STATUS) 
+    	VALUES (#{stuName},#{stuAccount},#{stuPassword},#{stuStudyNumber},#{regTime},#{status})
     </insert>
 </mapper>

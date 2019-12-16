@@ -8,11 +8,11 @@ import cn.com.newloading.bean.StudentReg;
 public interface StudentService {
 
 	/**
-	 * 学生注册表,返回id
+	 * 学生注册表,返回结果标识
 	 * @param student
 	 * @return
 	 */
-	StudentReg registerStu(Student student);
+	String registerStu(Student student);
 	
 	/**
 	 * 查询学生表,可用于登录
