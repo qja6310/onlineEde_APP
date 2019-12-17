@@ -1,4 +1,4 @@
-package cn.com.newloading.statics;
+package cn.com.newloading.enums;
 
 public enum AuditStatu {
 

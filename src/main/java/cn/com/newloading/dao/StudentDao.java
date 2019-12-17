@@ -28,4 +28,11 @@ public interface StudentDao {
 	 * @return
 	 */
 	Integer delStu(Student student);
+	
+	/**
+	 * 新增学生
+	 * @param student
+	 * @return
+	 */
+	Integer addStu(Student student);
 }

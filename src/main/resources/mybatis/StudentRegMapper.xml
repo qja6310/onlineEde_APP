@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.com.newloading.dao.StudentRegDao">
 	<resultMap type="cn.com.newloading.bean.StudentReg" id="stuRegResultMap">
@@ -51,4 +49,16 @@
     	INSERT INTO t_reg_students (STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,STATUS) 
     	VALUES (#{stuName},#{stuAccount},#{stuPassword},#{stuStudyNumber},#{regTime},#{status})
     </insert>
+    
+    <update id="editStudentReg" parameterType="cn.com.newloading.bean.StudentReg">
+    	UPDATE t_reg_students 
+    	<set>
+    		<if test="auditTime != null">AUDIT_TIME = #{auditTime}</if>
+    		<if test="auditResult != null">AUDIT_RESULT = #{auditResult}</if>
+    		<if test="dealExplain != null">DEAL_EXPLAIN = #{dealExplain}</if>
+    		<if test="adminId != null">ADMIN_ID = #{adminId}</if>
+    		<if test="status != null">STATUS = #{status}</if>
+    	</set>
+    	WHERE ID = #{id}
+    </update>
 </mapper>

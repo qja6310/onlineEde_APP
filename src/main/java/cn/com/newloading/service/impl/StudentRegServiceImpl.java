@@ -1,5 +1,6 @@
 package cn.com.newloading.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +9,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.com.newloading.bean.Student;
 import cn.com.newloading.bean.StudentReg;
+import cn.com.newloading.dao.StudentDao;
 import cn.com.newloading.dao.StudentRegDao;
+import cn.com.newloading.enums.AuditStatu;
 import cn.com.newloading.service.StudentRegService;
-import cn.com.newloading.statics.AuditStatu;
+import cn.com.newloading.utils.TimeUtil;
 
 @Service
 public class StudentRegServiceImpl implements StudentRegService {
 
 	@Autowired
 	private StudentRegDao studentRegDao;
+	@Autowired
+	private StudentDao studentDao;
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -61,6 +66,42 @@ public class StudentRegServiceImpl implements StudentRegService {
 	public Integer delStu(Student student) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public String auditStudentReg(String adminId, String stuRegId, String auditResult, String dealExplain,String status) {
+		StudentReg studentReg = new StudentReg();
+		studentReg.setId(stuRegId);
+		//查询出最新的注册信息,确认没被处理过
+		List<StudentReg> stuRegList = studentRegDao.queryStuReg(studentReg);
+		if(stuRegList == null || stuRegList.size() == 0) {
+			return "AUDIT0008";
+		}
+		studentReg = stuRegList.get(0);
+		
+		//判断是否审核通过
+		if(AuditStatu.PASS.getP().equals(status)) {
+			//新增学生
+			Student student = studentReg;
+			Integer stuId = studentDao.addStu(student);
+			if(stuId == null || stuId <= 0) {
+				return "AUDIT0009";
+			}
+		}
+		
+		//修改学生注册表
+		studentReg.setId(stuRegId);
+		studentReg.setAdminId(adminId);
+		studentReg.setAuditResult(auditResult);
+		studentReg.setDealExplain(dealExplain);
+		studentReg.setAuditTime(TimeUtil.dateToString(new Date()));
+		Integer res = studentRegDao.editStudentReg(studentReg);
+		if(res > 0) {
+			return "AUDIT0010";//修改成功
+		}else {
+			return "AUDIT0011";//修改失败
+		}
 	}
 	
 	

@@ -15,6 +15,16 @@ public interface StudentRegService {
 	String registerStu(Student student);
 	
 	/**
+	 * 审核学生注册
+	 * @param adminId
+	 * @param stuRegId
+	 * @param auditResult
+	 * @param dealExplain
+	 * @return
+	 */
+	String auditStudentReg(String adminId,String stuRegId,String auditResult,String dealExplain,String status);
+	
+	/**
 	 * 查询学生表,可用于登录
 	 * @return
 	 */

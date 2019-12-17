@@ -1,6 +1,6 @@
 package cn.com.newloading.bean;
 
-import cn.com.newloading.statics.AuditStatu;
+import cn.com.newloading.enums.AuditStatu;
 
 /*
  * 学生注册,管理员审核

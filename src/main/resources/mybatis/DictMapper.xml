@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.newloading.dao.DictDao">
+	<resultMap type="cn.com.newloading.bean.Dict" id="dictResultMap">
+		<result column="ID" property="id" />
+		<result column="CODE" property="code" />
+		<result column="NAME" property="name" />
+		<result column="VALUE" property="value" />
+		<result column="TYPE" property="type" />
+	</resultMap>
+	
+    <select id="queryDict" parameterType="cn.com.newloading.bean.Dict" resultMap="dictResultMap">
+    	SELECT ID,CODE,NAME,VALUE,TYPE
+        FROM t_dict WHERE 1 = 1
+       	<if test="code !=null and code !=''">
+       			AND CODE = #{code} 
+       	</if>
+       	<if test="type !=null and type !=''">
+       			AND TYPE = #{type} 
+       	</if>
+    </select>
+</mapper>

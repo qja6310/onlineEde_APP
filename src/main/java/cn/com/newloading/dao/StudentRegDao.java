@@ -31,4 +31,11 @@ public interface StudentRegDao {
 	 */
 	List<StudentReg> queryStuRegByParms(@Param("stuAccount")String stuAccount,@Param("stuStudyNumber")String stuStudyNumber);
 	
+	/**
+	 * 编辑studentReg
+	 * @param studentReg
+	 * @return
+	 */
+	Integer editStudentReg(StudentReg studentReg);
+	
 }
