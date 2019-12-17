@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.newloading.dao.AdminDao">
+	<resultMap type="cn.com.newloading.bean.Admin" id="adminResultMap">
+		<result column="ID" property="id" />
+		<result column="ADM_NAME" property="admName" />
+		<result column="ADM_ACCOUNT" property="admAccount" />
+		<result column="ADM_PASSWORD" property="admPassword" />
+	</resultMap>
+	
+    <select id="adminLogin" resultType="cn.com.newloading.bean.Admin">
+    	SELECT ID,ADM_NAME,ADM_ACCOUNT,ADM_PASSWORD FROM t_admin WHERE ADM_ACCOUNT = #{admAccount} AND ADM_PASSWORD = #{admPassword} 
+    </select>
+</mapper>

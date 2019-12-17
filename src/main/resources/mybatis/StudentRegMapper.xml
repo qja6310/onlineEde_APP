@@ -4,8 +4,8 @@
 <mapper namespace="cn.com.newloading.dao.StudentRegDao">
 	<resultMap type="cn.com.newloading.bean.StudentReg" id="stuRegResultMap">
 		<result column="ID" property="id" />
-		<result column="STU_NAME" property="stuName" />
-		<result column="STU_ACCOUNT" property="stuAccount" />
+		<result column="STU_PHONE" property="stuPhone" />
+		<result column="STU_EMAIL" property="stuEmail" />
 		<result column="STU_PASSWORD" property="stuPassword" />
 		<result column="STU_STUDY_NUMBER" property="stuStudyNumber" />
 		<result column="REG_TIME" property="regTime" />
@@ -17,16 +17,19 @@
 	</resultMap>
 	
 	<select id="queryStuReg" resultMap="stuRegResultMap">
-       SELECT ID,STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,AUDIT_TIME,AUDIT_RESULT,DEAL_EXPLAIN,ADMIN_ID,STATUS
+       SELECT ID,STU_PHONE,STU_EMAIL,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,AUDIT_TIME,AUDIT_RESULT,DEAL_EXPLAIN,ADMIN_ID,STATUS
         FROM t_reg_students WHERE 1 = 1
-       	<if test="stuAccount !=null and stuAccount !=''">
-       			AND STU_ACCOUNT LIKE CONCAT('%',CONCAT(#{stuAccount},'%')) 
+       	<if test="stuPhone !=null and stuPhone !=''">
+       			AND STU_PHONE LIKE CONCAT('%',CONCAT(#{stuPhone},'%')) 
        	</if>
        	<if test="stuStudyNumber !=null and stuStudyNumber !=''">
        			AND STU_STUDY_NUMBER LIKE CONCAT('%',CONCAT(#{stuStudyNumber},'%')) 
        	</if>
-       	<if test="stuName !=null and stuName !=''">
-       			AND STU_NAME LIKE CONCAT('%',CONCAT(#{stuName} ,'%'))
+       	<if test="stuEmail !=null and stuEmail !=''">
+       			AND STU_EMAIL LIKE CONCAT('%',CONCAT(#{stuEmail} ,'%'))
+       	</if>
+       	<if test="status !=null and status !=''">
+       			AND STATUS = #{status}
        	</if>
        	<if test="id !=null and id !=''">
        			AND ID = #{id} 
@@ -34,30 +37,34 @@
        ORDER BY ID DESC
     </select>
     <select id="queryStuRegByParms" resultMap="stuRegResultMap">
-       SELECT ID,STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,AUDIT_TIME,AUDIT_RESULT,DEAL_EXPLAIN,ADMIN_ID,STATUS
+       SELECT ID,STU_PHONE,STU_EMAIL,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,AUDIT_TIME,AUDIT_RESULT,DEAL_EXPLAIN,ADMIN_ID,STATUS
         FROM t_reg_students WHERE 1 = 1
-       	<if test="stuAccount !=null and stuAccount !=''">
-       			AND STU_ACCOUNT = #{stuAccount} 
+       	<if test="stuPhone !=null and stuPhone !=''">
+       			AND STU_PHONE = #{stuPhone} 
        	</if>
        	<if test="stuStudyNumber !=null and stuStudyNumber !=''">
        			AND STU_STUDY_NUMBER = #{stuStudyNumber} 
        	</if>
+       	<if test="stuEmail !=null and stuEmail !=''">
+        		AND STU_EMAIL = #{stuEmail} 
+       	</if>
        ORDER BY ID DESC
     </select>
 	
-    <insert id="registerStuReg" keyProperty="id" parameterType="cn.com.newloading.bean.StudentReg">
-    	INSERT INTO t_reg_students (STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,STATUS) 
-    	VALUES (#{stuName},#{stuAccount},#{stuPassword},#{stuStudyNumber},#{regTime},#{status})
+    <insert id="registerStuReg" useGeneratedKeys="true" keyProperty="id" parameterType="cn.com.newloading.bean.StudentReg">
+    	INSERT INTO t_reg_students (STU_PHONE,STU_EMAIL,STU_PASSWORD,STU_STUDY_NUMBER,REG_TIME,STATUS) 
+    	VALUES (#{stuPhone},#{stuEmail},#{stuPassword},#{stuStudyNumber},#{regTime},#{status})
     </insert>
     
     <update id="editStudentReg" parameterType="cn.com.newloading.bean.StudentReg">
     	UPDATE t_reg_students 
     	<set>
-    		<if test="auditTime != null">AUDIT_TIME = #{auditTime}</if>
-    		<if test="auditResult != null">AUDIT_RESULT = #{auditResult}</if>
-    		<if test="dealExplain != null">DEAL_EXPLAIN = #{dealExplain}</if>
-    		<if test="adminId != null">ADMIN_ID = #{adminId}</if>
-    		<if test="status != null">STATUS = #{status}</if>
+    		ID = #{id}
+    		<if test="auditTime != null">,AUDIT_TIME = #{auditTime}</if>
+    		<if test="auditResult != null">,AUDIT_RESULT = #{auditResult}</if>
+    		<if test="dealExplain != null">,DEAL_EXPLAIN = #{dealExplain}</if>
+    		<if test="adminId != null">,ADMIN_ID = #{adminId}</if>
+    		<if test="status != null">,STATUS = #{status}</if>
     	</set>
     	WHERE ID = #{id}
     </update>

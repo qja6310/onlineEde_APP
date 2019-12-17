@@ -3,8 +3,8 @@ package cn.com.newloading.bean;
 public class Student {
 
 	private String id;
-	private String stuName;
-	private String stuAccount;
+	private String stuPhone;
+	private String stuEmail;
 	private String stuPassword;
 	private String stuStudyNumber;
 	public Student() {
@@ -16,17 +16,18 @@ public class Student {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getStuName() {
-		return stuName;
+	
+	public String getStuPhone() {
+		return stuPhone;
 	}
-	public void setStuName(String stuName) {
-		this.stuName = stuName;
+	public void setStuPhone(String stuPhone) {
+		this.stuPhone = stuPhone;
 	}
-	public String getStuAccount() {
-		return stuAccount;
+	public String getStuEmail() {
+		return stuEmail;
 	}
-	public void setStuAccount(String stuAccount) {
-		this.stuAccount = stuAccount;
+	public void setStuEmail(String stuEmail) {
+		this.stuEmail = stuEmail;
 	}
 	public String getStuPassword() {
 		return stuPassword;

@@ -52,5 +52,10 @@ public class StudentReg extends Student {
 	public void setStatus(String pending) {
 		this.status = pending;
 	}
+	@Override
+	public String toString() {
+		return "StudentReg [regTime=" + regTime + ", auditTime=" + auditTime + ", auditResult=" + auditResult
+				+ ", dealExplain=" + dealExplain + ", adminId=" + adminId + ", status=" + status + "]";
+	}
 	
 }

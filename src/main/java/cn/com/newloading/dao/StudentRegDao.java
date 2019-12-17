@@ -24,12 +24,12 @@ public interface StudentRegDao {
 	List<StudentReg> queryStuReg(StudentReg studentReg);
 	
 	/**
-	 * 查账号是否有重复，学号是否有重复
+	 * 查询学号是否有重复，号码是否有重复，邮箱是否有重复
 	 * @param stuAccount
 	 * @param stuStudyNumber
 	 * @return
 	 */
-	List<StudentReg> queryStuRegByParms(@Param("stuAccount")String stuAccount,@Param("stuStudyNumber")String stuStudyNumber);
+	List<StudentReg> queryStuRegByParms(@Param("stuPhone")String stuPhone,@Param("stuStudyNumber")String stuStudyNumber,@Param("stuEmail")String stuEmail);
 	
 	/**
 	 * 编辑studentReg

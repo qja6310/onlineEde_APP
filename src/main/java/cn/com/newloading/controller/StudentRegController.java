@@ -38,25 +38,33 @@ public class StudentRegController {
 	@RequestMapping("/registerStu")
 	@ResponseBody
 	public JSONObject registerStu(HttpServletRequest request) {
-		String stuName = request.getParameter("stuName");// 姓名
-		if (StringUtil.isBlank(stuName)) {
-			return responseMsg("REGSTU0004","REGSTU");
+		String code = request.getParameter("verificationCode");//验证码
+		if(StringUtil.isEmpty(code)) {
+			return responseMsg("CODE0002","CODE");
 		}
-		String stuAccount = request.getParameter("stuAccount");// 账号
-		if (StringUtil.isBlank(stuName)) {
+		String verificationCode = (String) request.getSession().getAttribute("verificationCode");//session中的验证码
+		if(StringUtil.isEmpty(verificationCode)) {
+			return responseMsg("CODE0003","CODE");
+		}
+		if(!code.equals(verificationCode)) {
+			return responseMsg("CODE0001","CODE");
+		}
+		String stuPhone = request.getParameter("stuPhone");// 手机号
+		String stuEmail = request.getParameter("stuEmail");// 邮箱
+		if (StringUtil.isBlank(stuEmail) && StringUtil.isBlank(stuPhone)) {
 			return responseMsg("REGSTU0005","REGSTU");
 		}
 		String stuPassword = request.getParameter("stuPassword");// 密码
-		if (StringUtil.isBlank(stuName)) {
+		if (StringUtil.isBlank(stuPassword)) {
 			return responseMsg("REGSTU0006","REGSTU");
 		}
 		String stuStudyNumber = request.getParameter("stuStudyNumber");// 学号
-		if (StringUtil.isBlank(stuName)) {
+		if (StringUtil.isBlank(stuStudyNumber)) {
 			return responseMsg("REGSTU0007","REGSTU");
 		}
 		StudentReg studentReg = new StudentReg();
-		studentReg.setStuName(stuName);
-		studentReg.setStuAccount(stuAccount);
+		studentReg.setStuPhone(stuPhone);
+		studentReg.setStuEmail(stuEmail);
 		studentReg.setStuPassword(stuPassword);
 		studentReg.setStuStudyNumber(stuStudyNumber);
 		String regTime = TimeUtil.dateToString(new Date());
@@ -76,20 +84,27 @@ public class StudentRegController {
 	public JSONObject queryStuReg(HttpServletRequest request) {
 		JSONObject json = new JSONObject();
 		/* 查询条件 */
-		String stuName = request.getParameter("stuName");
-		String stuStudyNumber = request.getParameter("stuStudyNumber");
-		String stuAccount = request.getParameter("stuAccount");
+		String stuPhone = request.getParameter("stuPhone");// 手机号
+		String stuEmail = request.getParameter("stuEmail");// 邮箱
+		String stuStudyNumber = request.getParameter("stuStudyNumber");// 学号
+		String status = request.getParameter("status");//状态
 		StudentReg studentReg = new StudentReg();
 
 		// 非空判断,不包括空格
-		if (StringUtil.isNotBlank(stuName)) {
-			studentReg.setStuName(stuName);
+		if (StringUtil.isNotBlank(stuPhone)) {
+			studentReg.setStuPhone(stuPhone);
 		}
-		if (StringUtil.isNotBlank(stuAccount)) {
-			studentReg.setStuAccount(stuAccount);
+		if (StringUtil.isNotBlank(stuEmail)) {
+			studentReg.setStuEmail(stuEmail);
 		}
 		if (StringUtil.isNotBlank(stuStudyNumber)) {
 			studentReg.setStuStudyNumber(stuStudyNumber);
+		}
+		if(StringUtil.isNotBlank(status)) {
+			if(!AuditStatu.PASS.getP().equals(status) && !AuditStatu.NOPASS.getP().equals(status) &&!AuditStatu.PENDING.getP().equals(status)) {
+				return responseMsg("AUDIT0015","AUDIT");
+			}
+			studentReg.setStatus(status);
 		}
 
 		List<StudentReg> stuRegList = studentRegService.queryStuReg(studentReg);
@@ -113,13 +128,13 @@ public class StudentRegController {
 			return responseMsg("AUDIT0013","AUDIT");
 		}
 		String auditResult = request.getParameter("auditResult");
-		if (StringUtil.isBlank(auditResult)) {
-			return responseMsg("AUDIT0013","AUDIT");
-		}
+//		if (StringUtil.isBlank(auditResult)) {
+//			return responseMsg("AUDIT0013","AUDIT");
+//		}
 		String dealExplain = request.getParameter("dealExplain");
-		if (StringUtil.isBlank(dealExplain)) {
-			return responseMsg("AUDIT0013","AUDIT");
-		}
+//		if (StringUtil.isBlank(dealExplain)) {
+//			return responseMsg("AUDIT0013","AUDIT");
+//		}
 		String status = request.getParameter("status");
 		if (StringUtil.isBlank(status)) {
 			return responseMsg("AUDIT0013","AUDIT");
@@ -132,6 +147,7 @@ public class StudentRegController {
 		return responseMsg(retCode,"AUDIT");
 	}
 	
+	/*错误码返回*/
 	private JSONObject responseMsg(String code,String type) {
 		JSONObject json = new JSONObject();
 		Dict dict = new Dict();

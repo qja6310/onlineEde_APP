@@ -4,14 +4,14 @@
 <mapper namespace="cn.com.newloading.dao.StudentDao">
 	<resultMap type="cn.com.newloading.bean.Student" id="stuResultMap">
 		<result column="ID" property="id" />
-		<result column="STU_NAME" property="stuName" />
-		<result column="STU_ACCOUNT" property="stuAccount" />
+		<result column="STU_PHONE" property="stuPhone" />
+		<result column="STU_EMAIL" property="stuEmail" />
 		<result column="STU_PASSWORD" property="stuPassword" />
 		<result column="STU_STUDY_NUMBER" property="stuStudyNumber" />
 	</resultMap>
 	
     <insert id="addStu" keyProperty="id" parameterType="cn.com.newloading.bean.Student">
-    	INSERT INTO t_students (STU_NAME,STU_ACCOUNT,STU_PASSWORD,STU_STUDY_NUMBER) 
-    	VALUES (#{stuName},#{stuAccount},#{stuPassword},#{stuStudyNumber})
+    	INSERT INTO t_students (STU_PHONE,STU_EMAIL,STU_PASSWORD,STU_STUDY_NUMBER) 
+    	VALUES (#{stuPhone},#{stuEmail},#{stuPassword},#{stuStudyNumber})
     </insert>
 </mapper>

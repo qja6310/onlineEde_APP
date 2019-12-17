@@ -22,31 +22,37 @@ public class StudentRegServiceImpl implements StudentRegService {
 	private StudentRegDao studentRegDao;
 	@Autowired
 	private StudentDao studentDao;
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public String registerStu(Student student) {
 		StudentReg studentReg = (StudentReg) student;
-		//查询注册登陆账号是否可用
-		List<StudentReg> stuList = studentRegDao.queryStuRegByParms(student.getStuAccount(), null);
-		if(stuList.size() > 0) {//登陆账号不可注册
-			return "REGSTU0001";//表示账号已被注册过
+		// 查询注册登陆账号是否可用
+		List<StudentReg> stuList = studentRegDao.queryStuRegByParms(student.getStuPhone(), null, null);
+		if (stuList.size() > 0) {// 手机号已被注册
+			return "REGSTU0001";// 表示账号已被注册过
 		}
-		//查询该学号是否已被注册
+		// 查询该学号是否已被注册
 		stuList.clear();
-		stuList = studentRegDao.queryStuRegByParms(null,student.getStuStudyNumber());
-		if(stuList.size() > 0) {
-			return "REGSTU0003";//学号已被注册过
+		stuList = studentRegDao.queryStuRegByParms(null, student.getStuStudyNumber(), null);
+		if (stuList.size() > 0) {
+			return "REGSTU0003";// 学号已被注册过
+		}
+		// 查询该邮箱是否已被注册
+		stuList.clear();
+		stuList = studentRegDao.queryStuRegByParms(null, null, student.getStuEmail());
+		if (stuList.size() > 0) {
+			return "REGSTU0008";// 邮箱已被注册过
 		}
 		studentReg.setStatus(AuditStatu.PENDING.getP());
-		Integer stuId = studentRegDao.registerStuReg(studentReg);//注册到学生注册表
+		studentRegDao.registerStuReg(studentReg);// 注册到学生注册表,新增成功的id映射回对象
 		StudentReg sr = new StudentReg();
-		sr.setId(String.valueOf(stuId));
+		sr.setId(studentReg.getId());
 		stuList.clear();
 		stuList = studentRegDao.queryStuReg(sr);
-		if(stuList == null || stuList.size() == 0) {//注册失败
+		if (stuList == null || stuList.size() == 0) {// 注册失败
 			return "REGSTU0002";
-		}else {//注册提交成功
+		} else {// 注册提交成功
 			return "REGSTU0000";
 		}
 	}
@@ -70,39 +76,39 @@ public class StudentRegServiceImpl implements StudentRegService {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public String auditStudentReg(String adminId, String stuRegId, String auditResult, String dealExplain,String status) {
+	public String auditStudentReg(String adminId, String stuRegId, String auditResult, String dealExplain,
+			String status) {
 		StudentReg studentReg = new StudentReg();
 		studentReg.setId(stuRegId);
-		//查询出最新的注册信息,确认没被处理过
+		// 查询出最新的注册信息,确认没被处理过
 		List<StudentReg> stuRegList = studentRegDao.queryStuReg(studentReg);
-		if(stuRegList == null || stuRegList.size() == 0) {
+		if (stuRegList == null || stuRegList.size() == 0) {
 			return "AUDIT0008";
 		}
 		studentReg = stuRegList.get(0);
-		
-		//判断是否审核通过
-		if(AuditStatu.PASS.getP().equals(status)) {
-			//新增学生
+
+		// 判断是否审核通过
+		if (AuditStatu.PASS.getP().equals(status)) {
+			// 新增学生
 			Student student = studentReg;
 			Integer stuId = studentDao.addStu(student);
-			if(stuId == null || stuId <= 0) {
+			if (stuId == null || stuId <= 0) {
 				return "AUDIT0009";
 			}
 		}
-		
-		//修改学生注册表
+
+		// 修改学生注册表
 		studentReg.setId(stuRegId);
 		studentReg.setAdminId(adminId);
 		studentReg.setAuditResult(auditResult);
 		studentReg.setDealExplain(dealExplain);
 		studentReg.setAuditTime(TimeUtil.dateToString(new Date()));
 		Integer res = studentRegDao.editStudentReg(studentReg);
-		if(res > 0) {
-			return "AUDIT0010";//修改成功
-		}else {
-			return "AUDIT0011";//修改失败
+		if (res > 0) {
+			return "AUDIT0010";// 修改成功
+		} else {
+			return "AUDIT0011";// 修改失败
 		}
 	}
-	
-	
+
 }
