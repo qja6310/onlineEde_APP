@@ -10,7 +10,7 @@ import cn.com.newloading.bean.Student;
 public interface StudentDao {
 
 	/**
-	 * 查询学生表,可用于登录
+	 * 查询学生表
 	 * @return
 	 */
 	List<Student> queryStu(Student student);

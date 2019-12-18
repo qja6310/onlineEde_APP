@@ -14,4 +14,14 @@
     	INSERT INTO t_students (STU_PHONE,STU_EMAIL,STU_PASSWORD,STU_STUDY_NUMBER) 
     	VALUES (#{stuPhone},#{stuEmail},#{stuPassword},#{stuStudyNumber})
     </insert>
+    
+    <select id="queryStu" parameterType="cn.com.newloading.bean.Student" resultMap="stuResultMap">
+    	SELECT ID,STU_PHONE,STU_EMAIL,STU_PASSWORD,STU_STUDY_NUMBER
+    	FROM t_students WHERE 1 = 1
+    	<if test="stuStudyNumber != null and stuStudyNumber != ''"> AND STU_STUDY_NUMBER = #{stuStudyNumber}</if>
+    	<if test="stuPassword != null and stuPassword != ''"> AND STU_PASSWORD = #{stuPassword}</if>
+    	<if test="stuPhone != null and stuPhone != ''"> AND STU_PHONE = #{stuPhone}</if>
+    	<if test="stuEmail != null and stuEmail != ''"> AND STU_EMAIL = #{stuEmail}</if>
+    	ORDER BY ID DESC
+    </select>
 </mapper>

@@ -49,7 +49,7 @@ public class AdminController {
 		if(StringUtil.isEmpty(verificationCode)) {
 			return responseMsg("CODE0003","CODE");
 		}
-		if(!code.equals(verificationCode)) {
+		if(!code.equalsIgnoreCase(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
 		String admAccount = request.getParameter("admAccount");

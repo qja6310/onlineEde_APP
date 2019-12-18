@@ -103,6 +103,7 @@ public class StudentRegServiceImpl implements StudentRegService {
 		studentReg.setAuditResult(auditResult);
 		studentReg.setDealExplain(dealExplain);
 		studentReg.setAuditTime(TimeUtil.dateToString(new Date()));
+		studentReg.setStatus(status);
 		Integer res = studentRegDao.editStudentReg(studentReg);
 		if (res > 0) {
 			return "AUDIT0010";// 修改成功
