@@ -8,15 +8,16 @@
 		<result column="STU_EMAIL" property="stuEmail" />
 		<result column="STU_PASSWORD" property="stuPassword" />
 		<result column="STU_STUDY_NUMBER" property="stuStudyNumber" />
+		<result column="ROLE" property="role" />
 	</resultMap>
 	
     <insert id="addStu" keyProperty="id" parameterType="cn.com.newloading.bean.Student">
-    	INSERT INTO t_students (STU_PHONE,STU_EMAIL,STU_PASSWORD,STU_STUDY_NUMBER) 
-    	VALUES (#{stuPhone},#{stuEmail},#{stuPassword},#{stuStudyNumber})
+    	INSERT INTO t_students (STU_PHONE,STU_EMAIL,STU_PASSWORD,STU_STUDY_NUMBER,ROLE) 
+    	VALUES (#{stuPhone},#{stuEmail},#{stuPassword},#{stuStudyNumber},#{role})
     </insert>
     
     <select id="queryStu" parameterType="cn.com.newloading.bean.Student" resultMap="stuResultMap">
-    	SELECT ID,STU_PHONE,STU_EMAIL,STU_PASSWORD,STU_STUDY_NUMBER
+    	SELECT ID,STU_PHONE,STU_EMAIL,STU_PASSWORD,STU_STUDY_NUMBER,ROLE
     	FROM t_students WHERE 1 = 1
     	<if test="stuStudyNumber != null and stuStudyNumber != ''"> AND STU_STUDY_NUMBER = #{stuStudyNumber}</if>
     	<if test="stuPassword != null and stuPassword != ''"> AND STU_PASSWORD = #{stuPassword}</if>

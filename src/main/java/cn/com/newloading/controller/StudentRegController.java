@@ -2,11 +2,13 @@ package cn.com.newloading.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -37,8 +39,8 @@ public class StudentRegController {
 	 */
 	@RequestMapping("/registerStu")
 	@ResponseBody
-	public JSONObject registerStu(HttpServletRequest request) {
-		String code = request.getParameter("verificationCode");//验证码
+	public JSONObject registerStu(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String code = (String) params.get("verificationCode");//验证码
 		if(StringUtil.isEmpty(code)) {
 			return responseMsg("CODE0002","CODE");
 		}
@@ -49,16 +51,16 @@ public class StudentRegController {
 		if(!code.equalsIgnoreCase(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
-		String stuPhone = request.getParameter("stuPhone");// 手机号
-		String stuEmail = request.getParameter("stuEmail");// 邮箱
+		String stuPhone = (String) params.get("stuPhone");// 手机号
+		String stuEmail = (String) params.get("stuEmail");// 邮箱
 		if (StringUtil.isBlank(stuEmail) && StringUtil.isBlank(stuPhone)) {
 			return responseMsg("REGSTU0005","REGSTU");
 		}
-		String stuPassword = request.getParameter("stuPassword");// 密码
+		String stuPassword = (String) params.get("stuPassword");// 密码
 		if (StringUtil.isBlank(stuPassword)) {
 			return responseMsg("REGSTU0006","REGSTU");
 		}
-		String stuStudyNumber = request.getParameter("stuStudyNumber");// 学号
+		String stuStudyNumber = (String) params.get("stuStudyNumber");// 学号
 		if (StringUtil.isBlank(stuStudyNumber)) {
 			return responseMsg("REGSTU0007","REGSTU");
 		}
@@ -81,13 +83,13 @@ public class StudentRegController {
 	 */
 	@RequestMapping("/queryStuReg")
 	@ResponseBody
-	public JSONObject queryStuReg(HttpServletRequest request) {
+	public JSONObject queryStuReg(@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
 		/* 查询条件 */
-		String stuPhone = request.getParameter("stuPhone");// 手机号
-		String stuEmail = request.getParameter("stuEmail");// 邮箱
-		String stuStudyNumber = request.getParameter("stuStudyNumber");// 学号
-		String status = request.getParameter("status");//状态
+		String stuPhone = (String) params.get("stuPhone");// 手机号
+		String stuEmail = (String) params.get("stuEmail");// 邮箱
+		String stuStudyNumber = (String) params.get("stuStudyNumber");// 学号
+		String status = (String) params.get("status");//状态
 		StudentReg studentReg = new StudentReg();
 
 		// 非空判断,不包括空格
@@ -114,7 +116,7 @@ public class StudentRegController {
 
 	@RequestMapping("/auditStudentReg")
 	@ResponseBody
-	public JSONObject auditStudentReg(HttpServletRequest request) {
+	public JSONObject auditStudentReg(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		/* 条件判断 */
 		// session里面取adminId
 		Admin admin = (Admin) request.getSession().getAttribute("admin");
@@ -123,19 +125,19 @@ public class StudentRegController {
 			// session失效
 			return responseMsg("AUDIT0012","AUDIT");
 		}
-		String stuRegId = request.getParameter("stuRegId");
+		String stuRegId = (String) params.get("stuRegId");
 		if (StringUtil.isBlank(stuRegId)) {
 			return responseMsg("AUDIT0013","AUDIT");
 		}
-		String auditResult = request.getParameter("auditResult");
+		String auditResult = (String) params.get("auditResult");
 //		if (StringUtil.isBlank(auditResult)) {
 //			return responseMsg("AUDIT0013","AUDIT");
 //		}
-		String dealExplain = request.getParameter("dealExplain");
+		String dealExplain = (String) params.get("dealExplain");
 //		if (StringUtil.isBlank(dealExplain)) {
 //			return responseMsg("AUDIT0013","AUDIT");
 //		}
-		String status = request.getParameter("status");
+		String status = (String) params.get("status");
 		if (StringUtil.isBlank(status)) {
 			return responseMsg("AUDIT0013","AUDIT");
 		}

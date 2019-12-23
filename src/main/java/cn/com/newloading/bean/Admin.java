@@ -6,6 +6,7 @@ public class Admin {
 	private String admName;
 	private String admAccount;
 	private String admPassword;
+	private String role;
 	public Admin() {
 		
 	}
@@ -32,6 +33,12 @@ public class Admin {
 	}
 	public void setAdmPassword(String admPassword) {
 		this.admPassword = admPassword;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
 	}
 	
 }

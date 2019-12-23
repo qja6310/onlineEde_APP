@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.newloading.dao.ContectAdminDao">
+	<resultMap type="cn.com.newloading.bean.ContectAdmin" id="caResultMap">
+		<result column="ID" property="id" />
+		<result column="FOREIGN_KEY" property="foreignId" />
+		<result column="CONTENT" property="content" />
+		<result column="ISSUE_TIME" property="issueTime" />
+		<result column="FOREIGN_TYPE" property="foreignType" />
+		<result column="REPLY_FLAG" property="replyFlag" />
+		<result column="PID" property="pid" />
+		<result column="TYPE" property="type" />
+	</resultMap>
+	
+    <insert id="addContectAdmin" keyProperty="id" parameterType="cn.com.newloading.bean.ContectAdmin">
+    	INSERT INTO t_contect_admin (FOREIGN_KEY,CONTENT,ISSUE_TIME,FOREIGN_TYPE,REPLY_FLAG,PID,TYPE)
+    	VALUES(#{foreignId},#{content},#{issueTime},#{foreignType},#{replyFlag},#{pid},#{type})
+    </insert>
+    
+    <update id="editContectAdmin">
+    	UPDATE t_contect_admin SET REPLY_FLAG = #{replyFlag} WHERE ID = #{caId}
+    </update>
+    
+    <select id="queryContectAdmin" parameterType="cn.com.newloading.bean.ContectAdmin" resultMap="caResultMap">
+    	SELECT ID FOREIGN_KEY,CONTENT,ISSUE_TIME,FOREIGN_TYPE,REPLY_FLAG,PID,TYPE
+    	FROM t_contect_admin WHERE 1 = 1
+    	<if test="content !=null and content !=''">
+       		AND content LIKE CONCAT('%',CONCAT(#{content},'%')) 
+       	</if>
+       	<if test="replyFlag !=null and replyFlag !=''">
+       		AND REPLY_FLAG = #{replyFlag}
+       	</if>
+       	<if test="foreignType !=null and foreignType !=''">
+       		AND FOREIGN_TYPE = #{foreignType}
+       	</if>
+    	ORDER BY ID
+    </select>
+</mapper>

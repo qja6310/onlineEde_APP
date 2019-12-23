@@ -12,6 +12,7 @@ import cn.com.newloading.bean.StudentReg;
 import cn.com.newloading.dao.StudentDao;
 import cn.com.newloading.dao.StudentRegDao;
 import cn.com.newloading.enums.AuditStatu;
+import cn.com.newloading.enums.RoleType;
 import cn.com.newloading.service.StudentRegService;
 import cn.com.newloading.utils.TimeUtil;
 
@@ -91,6 +92,7 @@ public class StudentRegServiceImpl implements StudentRegService {
 		if (AuditStatu.PASS.getP().equals(status)) {
 			// 新增学生
 			Student student = studentReg;
+			student.setRole(RoleType.STU.getRole());
 			Integer stuId = studentDao.addStu(student);
 			if (stuId == null || stuId <= 0) {
 				return "AUDIT0009";

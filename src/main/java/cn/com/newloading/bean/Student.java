@@ -7,6 +7,7 @@ public class Student {
 	private String stuEmail;
 	private String stuPassword;
 	private String stuStudyNumber;
+	private String role;
 	public Student() {
 		
 	}
@@ -40,6 +41,12 @@ public class Student {
 	}
 	public void setStuStudyNumber(String stuStudyNumber) {
 		this.stuStudyNumber = stuStudyNumber;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
 	}
 	
 }

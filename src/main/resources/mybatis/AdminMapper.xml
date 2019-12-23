@@ -7,9 +7,10 @@
 		<result column="ADM_NAME" property="admName" />
 		<result column="ADM_ACCOUNT" property="admAccount" />
 		<result column="ADM_PASSWORD" property="admPassword" />
+		<result column="ROLE" property="role" />
 	</resultMap>
 	
     <select id="adminLogin" resultType="cn.com.newloading.bean.Admin">
-    	SELECT ID,ADM_NAME,ADM_ACCOUNT,ADM_PASSWORD FROM t_admin WHERE ADM_ACCOUNT = #{admAccount} AND ADM_PASSWORD = #{admPassword} 
+    	SELECT ID,ADM_NAME,ADM_ACCOUNT,ADM_PASSWORD,ROLE FROM t_admin WHERE ADM_ACCOUNT = #{admAccount} AND ADM_PASSWORD = #{admPassword} 
     </select>
 </mapper>

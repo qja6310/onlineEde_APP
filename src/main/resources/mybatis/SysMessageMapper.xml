@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.newloading.dao.SysMessageDao">
+	<resultMap type="cn.com.newloading.bean.SysMessage" id="sysMsgResultMap">
+		<result column="ID" property="id" />
+		<result column="TITLE" property="title" />
+		<result column="CONTENT" property="content" />
+		<result column="ISSUE_TIME" property="issueTime" />
+		<result column="ADMIN_ID" property="adminId" />
+	</resultMap>
+	
+    <insert id="addSysMessage" keyProperty="id" parameterType="cn.com.newloading.bean.SysMessage">
+    	INSERT INTO t_sys_message (TITLE,CONTENT,ISSUE_TIME,ADMIN_ID) 
+    	VALUES (#{title},#{content},#{issueTime},#{adminId})
+    </insert>
+    
+    <select id="querySysMsg" parameterType="cn.com.newloading.bean.SysMessage" resultMap="sysMsgResultMap">
+    	SELECT ID,TITLE,CONTENT,ISSUE_TIME,ADMIN_ID FROM t_sys_message WHERE 1 = 1
+    	<if test="title !=null and title !=''">
+       			AND TITLE LIKE CONCAT('%',CONCAT(#{title},'%')) 
+       	</if>
+       	<if test="content !=null and content !=''">
+       			AND CONTENT LIKE CONCAT('%',CONCAT(#{content},'%')) 
+       	</if>
+       	ORDER BY ID DESC
+    </select>
+    
+    <delete id="delSysMsg">
+    	DELETE FROM t_sys_message WHERE ID = #{sysMsgId}
+    </delete>
+</mapper>

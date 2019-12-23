@@ -2,11 +2,13 @@ package cn.com.newloading.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -40,8 +42,8 @@ public class AdminController {
 	 */
 	@RequestMapping("/adminLogin")
 	@ResponseBody
-	public JSONObject adminLogin(HttpServletRequest request) {
-		String code = request.getParameter("verificationCode");//验证码
+	public JSONObject adminLogin(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String code = (String) params.get("verificationCode");//验证码
 		if(StringUtil.isEmpty(code)) {
 			return responseMsg("CODE0002","CODE");
 		}
@@ -52,11 +54,11 @@ public class AdminController {
 		if(!code.equalsIgnoreCase(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
-		String admAccount = request.getParameter("admAccount");
+		String admAccount = (String) params.get("admAccount");
 		if (StringUtil.isBlank(admAccount)) {
 			return responseMsg("ADMIN0001","ADMIN");
 		}
-		String admPassword = request.getParameter("admPassword");
+		String admPassword = (String) params.get("admPassword");
 		if (StringUtil.isBlank(admPassword)) {
 			return responseMsg("ADMIN0002","ADMIN");
 		}

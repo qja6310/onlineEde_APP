@@ -1,11 +1,13 @@
 package cn.com.newloading.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,8 +30,8 @@ public class StudentController {
 	
 	@RequestMapping("/studentLogin")
 	@ResponseBody
-	public JSONObject studentLogin(HttpServletRequest request) {
-		String code = request.getParameter("verificationCode");//验证码
+	public JSONObject studentLogin(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String code = (String) params.get("verificationCode");//验证码
 		if(StringUtil.isEmpty(code)) {
 			return responseMsg("CODE0002","CODE");
 		}
@@ -40,11 +42,11 @@ public class StudentController {
 		if(!code.equalsIgnoreCase(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
-		String stuStudyNumber = request.getParameter("stuStudyNumber");//学号登录
+		String stuStudyNumber = (String) params.get("stuStudyNumber");//学号登录
 		if(StringUtil.isBlank(stuStudyNumber)) {
 			return responseMsg("STU00002","STUDENT");
 		}
-		String stuPassword = request.getParameter("stuPassword");//密码
+		String stuPassword = (String) params.get("stuPassword");//密码
 		if(StringUtil.isBlank(stuPassword)) {
 			return responseMsg("STU00003","STUDENT");
 		}
