@@ -17,7 +17,7 @@ import cn.com.newloading.bean.Admin;
 import cn.com.newloading.bean.ContectAdmin;
 import cn.com.newloading.bean.Dict;
 import cn.com.newloading.bean.Student;
-import cn.com.newloading.bean.Teacher;
+//import cn.com.newloading.bean.Teacher;
 import cn.com.newloading.enums.RoleType;
 import cn.com.newloading.service.ContectAdminService;
 import cn.com.newloading.service.DictService;
@@ -55,11 +55,11 @@ public class ContectAdminController {
 			}
 			contectAdmin.setForeignId(student.getId());
 		}else if(RoleType.TEA.getRole().equals(foreignType)) {
-			Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
-			if(null == teacher || "".equals(teacher.getId())) {
-				return responseMsg("TEA00006", "TEACHER");
-			}
-			contectAdmin.setForeignId(teacher.getId());
+//			Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
+//			if(null == teacher || "".equals(teacher.getId())) {
+//				return responseMsg("TEA00006", "TEACHER");
+//			}
+//			contectAdmin.setForeignId(teacher.getId());
 		}else {
 			Admin admin = (Admin) request.getSession().getAttribute("admin");
 			if(null == admin || "".equals(admin.getId())) {
