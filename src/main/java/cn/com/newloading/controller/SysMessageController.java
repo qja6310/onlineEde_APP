@@ -41,7 +41,7 @@ public class SysMessageController {
 			return responseMsg("SYSMSG0003","SYSMSG");
 		}
 		Admin admin = (Admin) request.getSession().getAttribute("admin");
-		if(StringUtil.isBlank(admin.getId())) {
+		if(admin == null || StringUtil.isBlank(admin.getId())) {
 			return responseMsg("SYSMSG0004","SYSMSG");
 		}
 		String adminId = admin.getId();
