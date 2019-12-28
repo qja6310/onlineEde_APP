@@ -1,6 +1,6 @@
 package cn.com.newloading.bean;
 
-public class Student {
+public class Student extends Role{
 
 	private String id;
 	private String stuPhone;

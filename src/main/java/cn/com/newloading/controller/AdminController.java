@@ -42,8 +42,9 @@ public class AdminController {
 	 */
 	@RequestMapping("/adminLogin")
 	@ResponseBody
-	public JSONObject adminLogin(HttpServletRequest request,@RequestBody Map<String, Object> params) {
-		String code = (String) params.get("verificationCode");//验证码
+	public JSONObject adminLogin(HttpServletRequest request) {
+//		String code = (String) params.get("verificationCode");//验证码
+		String code = request.getParameter("verificationCode");
 		if(StringUtil.isEmpty(code)) {
 			return responseMsg("CODE0002","CODE");
 		}
@@ -54,11 +55,12 @@ public class AdminController {
 		if(!code.equalsIgnoreCase(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
-		String admAccount = (String) params.get("admAccount");
+//		String admAccount = (String) params.get("admAccount");
+		String admAccount = request.getParameter("admAccount");
 		if (StringUtil.isBlank(admAccount)) {
 			return responseMsg("ADMIN0001","ADMIN");
 		}
-		String admPassword = (String) params.get("admPassword");
+		String admPassword = request.getParameter("admPassword");
 		if (StringUtil.isBlank(admPassword)) {
 			return responseMsg("ADMIN0002","ADMIN");
 		}

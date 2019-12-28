@@ -23,7 +23,7 @@
     </update>
     
     <select id="queryContectAdmin" parameterType="cn.com.newloading.bean.ContectAdmin" resultMap="caResultMap">
-    	SELECT ID FOREIGN_KEY,CONTENT,ISSUE_TIME,FOREIGN_TYPE,REPLY_FLAG,PID,TYPE
+    	SELECT ID, FOREIGN_KEY,CONTENT,ISSUE_TIME,FOREIGN_TYPE,REPLY_FLAG,PID,TYPE
     	FROM t_contect_admin WHERE 1 = 1
     	<if test="content !=null and content !=''">
        		AND content LIKE CONCAT('%',CONCAT(#{content},'%')) 
@@ -34,6 +34,22 @@
        	<if test="foreignType !=null and foreignType !=''">
        		AND FOREIGN_TYPE = #{foreignType}
        	</if>
+       	<if test="pid !=null and pid !=''">
+       		AND PID = #{pid}
+       	</if>
+       	<if test="type !=null and type !=''">
+       		AND TYPE = #{type}
+       	</if>
+       	<if test="foreignId !=null and foreignId !=''">
+       		AND FOREIGN_KEY = #{foreignId}
+       	</if>
+       	<if test="foreignType !=null and foreignType !=''">
+       		AND FOREIGN_TYPE = #{foreignType}
+       	</if>
     	ORDER BY ID
+    </select>
+    <select id="queryContectAdminById" parameterType="cn.com.newloading.bean.ContectAdmin" resultMap="caResultMap">
+    	SELECT ID, FOREIGN_KEY,CONTENT,ISSUE_TIME,FOREIGN_TYPE,REPLY_FLAG,PID,TYPE
+    	FROM t_contect_admin WHERE ID = #{caId}
     </select>
 </mapper>
