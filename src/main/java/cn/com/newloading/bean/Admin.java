@@ -1,6 +1,6 @@
 package cn.com.newloading.bean;
 
-public class Admin {
+public class Admin extends Role{
 
 	private String id;
 	private String admName;

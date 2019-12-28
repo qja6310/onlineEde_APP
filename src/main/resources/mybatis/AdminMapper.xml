@@ -13,4 +13,7 @@
     <select id="adminLogin" resultType="cn.com.newloading.bean.Admin">
     	SELECT ID,ADM_NAME,ADM_ACCOUNT,ADM_PASSWORD,ROLE FROM t_admin WHERE ADM_ACCOUNT = #{admAccount} AND ADM_PASSWORD = #{admPassword} 
     </select>
+    <select id="queryAdminById" resultType="cn.com.newloading.bean.Admin">
+    	SELECT ID,ADM_NAME,ADM_ACCOUNT,ADM_PASSWORD,ROLE FROM t_admin WHERE ID = #{adminId}
+    </select>
 </mapper>

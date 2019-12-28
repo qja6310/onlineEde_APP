@@ -46,4 +46,11 @@ public interface ContectAdminDao {
 	 * @return
 	 */
 	List<ContectAdmin> queryContectAdmin(ContectAdmin contectAdmin);
+	
+	/**
+	 * 
+	 * @param caId
+	 * @return
+	 */
+	ContectAdmin queryContectAdminById(@Param("caId")String caId);
 }

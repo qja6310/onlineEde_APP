@@ -15,4 +15,11 @@ public interface AdminDao {
 	 */
 	Admin adminLogin(@Param("admAccount")String admAccount,@Param("admPassword")String admPassword);
 	
+	/**
+	 * id查询admin
+	 * @param adminId
+	 * @return
+	 */
+	Admin queryAdminById(@Param("adminId")String adminId);
+	
 }

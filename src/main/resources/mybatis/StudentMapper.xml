@@ -25,4 +25,9 @@
     	<if test="stuEmail != null and stuEmail != ''"> AND STU_EMAIL = #{stuEmail}</if>
     	ORDER BY ID DESC
     </select>
+    
+    <select id="queryStuById" resultMap="stuResultMap">
+    	SELECT ID,STU_PHONE,STU_EMAIL,STU_PASSWORD,STU_STUDY_NUMBER,ROLE
+    	FROM t_students WHERE ID = #{stuId}
+    </select>
 </mapper>
