@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.newloading.dao.TeacherRegDao">
+	<resultMap type="cn.com.newloading.bean.TeacherReg" id="teaRegResultMap">
+		<result column="ID" property="id" />
+		<result column="T_PHONE" property="teaPhone" />
+		<result column="T_EMAIL" property="teaEmail" />
+		<result column="T_PASSWORD" property="teaPassword" />
+		<result column="T_NUMBER" property="teaNumber" />
+		<result column="REG_TIME" property="regTime" />
+		<result column="AUDIT_TIME" property="auditTime" />
+		<result column="AUDIT_RESULT" property="auditResult" />
+		<result column="DEAL_EXPLAIN" property="dealExplain" />
+		<result column="ADMIN_ID" property="adminId" />
+		<result column="STATUS" property="status" />
+	</resultMap>
+    <select id="queryTeaRegByParms" resultMap="teaRegResultMap">
+       SELECT ID,T_PHONE,T_EMAIL,T_PASSWORD,T_NUMBER,REG_TIME,AUDIT_TIME,AUDIT_RESULT,DEAL_EXPLAIN,ADMIN_ID,STATUS
+        FROM t_reg_teacher WHERE 1 = 1
+       	<if test="teaPhone !=null and teaPhone !=''">
+       			AND T_PHONE = #{teaPhone} 
+       	</if>
+       	<if test="teaNumber !=null and teaNumber !=''">
+       			AND T_NUMBER = #{teaNumber} 
+       	</if>
+       	<if test="teaEmail !=null and teaEmail !=''">
+        		AND T_EMAIL = #{teaEmail} 
+       	</if>
+       ORDER BY ID DESC
+    </select>
+
+	<select id="queryTeaReg" resultMap="teaRegResultMap">
+       SELECT ID,T_PHONE,T_EMAIL,T_PASSWORD,T_NUMBER,REG_TIME,AUDIT_TIME,AUDIT_RESULT,DEAL_EXPLAIN,ADMIN_ID,STATUS
+        FROM t_reg_teacher WHERE 1 = 1
+       	<if test="teaPhone !=null and teaPhone !=''">
+       			AND T_PHONE LIKE CONCAT('%',CONCAT(#{teaPhone},'%')) 
+       	</if>
+       	<if test="teaNumber !=null and teaNumber !=''">
+       			AND T_NUMBER LIKE CONCAT('%',CONCAT(#{teaNumber},'%')) 
+       	</if>
+       	<if test="teaEmail !=null and teaEmail !=''">
+       			AND T_EMAIL LIKE CONCAT('%',CONCAT(#{teaEmail} ,'%'))
+       	</if>
+       	<if test="status !=null and status !=''">
+       			AND STATUS = #{status}
+       	</if>
+       	<if test="id !=null and id !=''">
+       			AND ID = #{id} 
+       	</if>
+       ORDER BY ID DESC
+    </select>
+
+	
+    <insert id="registerTeaReg" useGeneratedKeys="true" keyProperty="id" parameterType="cn.com.newloading.bean.TeacherReg">
+    	INSERT INTO t_reg_teacher (T_PHONE,T_EMAIL,T_PASSWORD,T_NUMBER,REG_TIME,STATUS) 
+    	VALUES (#{teaPhone},#{teaEmail},#{teaPassword},#{teaNumber},#{regTime},#{status})
+    </insert>
+    
+    <update id="editTeacherReg" parameterType="cn.com.newloading.bean.TeacherReg">
+    	UPDATE t_reg_teacher 
+    	<set>
+    		ID = #{id}
+    		<if test="auditTime != null">,AUDIT_TIME = #{auditTime}</if>
+    		<if test="auditResult != null">,AUDIT_RESULT = #{auditResult}</if>
+    		<if test="dealExplain != null">,DEAL_EXPLAIN = #{dealExplain}</if>
+    		<if test="adminId != null">,ADMIN_ID = #{adminId}</if>
+    		<if test="status != null">,STATUS = #{status}</if>
+    	</set>
+    	WHERE ID = #{id}
+    </update>
+</mapper>
