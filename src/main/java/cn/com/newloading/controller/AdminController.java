@@ -42,7 +42,7 @@ public class AdminController {
 	 */
 	@RequestMapping("/adminLogin")
 	@ResponseBody
-	public JSONObject adminLogin(HttpServletRequest request,Map<String, Object> params) {
+	public JSONObject adminLogin(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		String code = (String) params.get("verificationCode");//验证码
 //		String code = request.getParameter("verificationCode");
 		if(StringUtil.isEmpty(code)) {
