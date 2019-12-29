@@ -51,6 +51,7 @@ public class TeacherController {
 			return responseMsg("TEA00003","TEACHER");
 		}
 		Teacher t = tService.TeacherLogin(tNumber, tPassword);
+		
 		if(t == null || StringUtil.isBlank(t.getId())) {
 			return responseMsg("TEA00001","TEACHER");
 		}else {
@@ -62,23 +63,23 @@ public class TeacherController {
 	@RequestMapping("/findTeacher")
 	@ResponseBody
 	public JSONObject findTeacher(HttpServletRequest request) {
-		String code = request.getParameter("verificationCode");//验证码
-		if(StringUtil.isEmpty(code)) {
-			return responseMsg("CODE0002","CODE");
-		}
-		String verificationCode = (String) request.getSession().getAttribute("verificationCode");//session中的验证码
-		if(StringUtil.isEmpty(verificationCode)) {
-			return responseMsg("CODE0003","CODE");
-		}
-		if(!code.equals(verificationCode)) {
-			return responseMsg("CODE0001","CODE");
-		}
+//		String code = request.getParameter("verificationCode");//验证码
+//		if(StringUtil.isEmpty(code)) {
+//			return responseMsg("CODE0002","CODE");
+//		}
+//		String verificationCode = (String) request.getSession().getAttribute("verificationCode");//session中的验证码
+//		if(StringUtil.isEmpty(verificationCode)) {
+//			return responseMsg("CODE0003","CODE");
+//		}
+//		if(!code.equals(verificationCode)) {
+//			return responseMsg("CODE0001","CODE");
+//		}
 		String tNumber = request.getParameter("tNumber");//职工号
+		String tPhone = request.getParameter("tPhone");
+		String tEmail = request.getParameter("tEmail");
 		if(StringUtil.isBlank(tNumber)) {
 			return responseMsg("TEA00002","TEACHER");
 		}
-		String tPhone = request.getParameter("tPhone");
-		String tEmail = request.getParameter("tEmail");
 		if (StringUtil.isBlank(tEmail) && StringUtil.isBlank(tPhone)) {
 			return responseMsg("REGTEA0005","REGTEA");
 		}
