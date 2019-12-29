@@ -77,7 +77,7 @@ public class CurriculumController {
 	}
 	
 	//学生展示课程
-	@RequestMapping("/qcft")
+	@RequestMapping("/qcfs")
 	@ResponseBody
 	public JSONObject queryCurriculumForStudent(HttpServletRequest request) {
 		String select = request.getParameter("select");
@@ -104,7 +104,7 @@ public class CurriculumController {
 	}
 	
 	//学生确认课程
-	@RequestMapping("/qcft")
+	@RequestMapping("/sureCourse")
 	@ResponseBody
 	public JSONObject sureCurriculum(HttpServletRequest request) {
 		String cuId = request.getParameter("cuId");//课程id
