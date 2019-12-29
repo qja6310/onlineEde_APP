@@ -8,7 +8,7 @@ public class Teacher {
 	private String teaPassword;
 	private String name;
 	private String teaNumber;
-	private String role;
+	private String role;//角色标识符
 	
 	public Teacher(){
 		
