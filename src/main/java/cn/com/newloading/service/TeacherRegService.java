@@ -12,7 +12,7 @@ public interface TeacherRegService {
 	 * @param Teacher
 	 * @return
 	 */
-	String registerTea(Teacher t);
+	String registerTea(TeacherReg t);
 	
 	/**
 	 * 审核教师注册

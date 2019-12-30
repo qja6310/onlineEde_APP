@@ -18,7 +18,7 @@
     </insert>
     
     <select id="queryTea" parameterType="cn.com.newloading.bean.Teacher" resultMap="teaResultMap">
-    	SELECT ID,T_PHONE,T_EMAIL,T_PASSWORD,T_NUMBER,ROLE
+    	SELECT ID,NAME,T_PHONE,T_EMAIL,T_PASSWORD,T_NUMBER,ROLE
     	FROM t_teacher WHERE 1 = 1
     	<if test="teaNumber != null and teaNumber != ''"> AND T_NUMBER = #{teaNumber}</if>
     	<if test="teaPassword != null and teaPassword != ''"> AND T_PASSWORD = #{teaPassword}</if>

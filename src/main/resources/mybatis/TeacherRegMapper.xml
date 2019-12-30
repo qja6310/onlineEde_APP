@@ -53,8 +53,8 @@
 
 	
     <insert id="registerTeaReg" useGeneratedKeys="true" keyProperty="id" parameterType="cn.com.newloading.bean.TeacherReg">
-    	INSERT INTO t_reg_teacher (T_PHONE,T_EMAIL,T_PASSWORD,T_NUMBER,REG_TIME,STATUS) 
-    	VALUES (#{teaPhone},#{teaEmail},#{teaPassword},#{teaNumber},#{regTime},#{status})
+    	INSERT INTO t_reg_teacher (NAME,T_PHONE,T_EMAIL,T_PASSWORD,T_NUMBER,REG_TIME,STATUS) 
+    	VALUES (#{name},#{teaPhone},#{teaEmail},#{teaPassword},#{teaNumber},#{regTime},#{status})
     </insert>
     
     <update id="editTeacherReg" parameterType="cn.com.newloading.bean.TeacherReg">

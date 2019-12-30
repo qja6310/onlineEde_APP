@@ -55,6 +55,9 @@ public class Teacher {
 	public void setTeaPhone(String teaPhone) {
 		this.teaPhone = teaPhone;
 	}
-	
+	@Override
+	public String toString() {
+		return this.id+"\t"+this.name;
+	}
 	
 }

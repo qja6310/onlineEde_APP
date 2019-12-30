@@ -22,6 +22,7 @@ public class TeacherServiceImpl implements TeacherService {
 		teacher.setTeaNumber(teaNumber);
 		teacher.setTeaPassword(teaPassword);
 		List<Teacher> list = tDao.queryTea(teacher);
+		
 		if(list != null && list.size() > 0) {
 			teacher = list.get(0);
 			if(!teaNumber.equals(teacher.getTeaNumber()) || !teaPassword.equals(teacher.getTeaPassword())) {

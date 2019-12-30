@@ -26,14 +26,14 @@ public class TeacherRegServiceImpl implements TeacherRegService {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public String registerTea(Teacher t) {
+	public String registerTea(TeacherReg t) {
 //		TeacherReg TeacherReg = (TeacherReg) teacher;
 		// 查询注册登陆账号是否可用
 		List<TeacherReg> list = tRegDao.queryTeaRegByParms(t.getTeaPhone(), null, null);
 		if (list.size() > 0) {// 手机号已被注册
 			return "REGTEA0001";// 表示账号已被注册过
 		}
-		// 查询该职工号是否已被注册
+		//查询该职工号是否已被注册
 		list.clear();
 		list = tRegDao.queryTeaRegByParms(null, t.getTeaNumber(), null);
 		if (list.size() > 0) {
@@ -45,18 +45,22 @@ public class TeacherRegServiceImpl implements TeacherRegService {
 		if (list.size() > 0) {
 			return "REGTEA0008";// 邮箱已被注册过
 		}
-		TeacherReg tReg = new TeacherReg();
-		tReg.setStatus(AuditStatu.PENDING.getP());
-		tRegDao.registerTeaReg(tReg);//TODO 注册到教师注册表,新增成功的id映射回对象
-		TeacherReg sr = new TeacherReg();
-		sr.setId(tReg.getId());
-		list.clear();
-		list = tRegDao.queryTeaReg(sr);
-		if (list == null || list.size() == 0) {// 注册失败
+		t.setStatus(AuditStatu.PENDING.getP());
+		int result=tRegDao.registerTeaReg(t);//TODO 注册到教师注册表,新增成功的id映射回对象
+		if(result>0) {
+			return "REGTEA0000";//注册提交成功
+		}else {
 			return "REGTEA0002";
-		} else {// 注册提交成功
-			return "REGTEA0000";
 		}
+//		TeacherReg sr = new TeacherReg();
+//		sr.setId(t.getId());
+//		list.clear();
+//		list = tRegDao.queryTeaReg(sr);
+//		if (list == null || list.size() == 0) {// 注册失败
+//			return "REGTEA0002";
+//		} else {// 注册提交成功
+//			return "REGTEA0000";
+//		}
 	}
 
 	@Override

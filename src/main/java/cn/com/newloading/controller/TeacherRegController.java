@@ -40,8 +40,9 @@ public class TeacherRegController {
 	 */
 	@RequestMapping("/registerTea")
 	@ResponseBody
-	public JSONObject registerTea(HttpServletRequest request,@RequestBody Map<String, Object> params) {
-		String code = (String) params.get("verificationCode");//验证码
+	public JSONObject registerTea(HttpServletRequest request) {//,@RequestBody Map<String, Object> params
+//		String code = (String) params.get("verificationCode");//验证码
+		String code = request.getParameter("verificationCode");//验证码
 		if(StringUtil.isEmpty(code)) {
 			return responseMsg("CODE0002","CODE");
 		}
@@ -52,20 +53,27 @@ public class TeacherRegController {
 		if(!code.equalsIgnoreCase(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
-		String tPhone = (String) params.get("tPhone");// 手机号
-		String tEmail = (String) params.get("tEmail");// 邮箱
+//		String tPhone = (String) params.get("tPhone");// 手机号
+//		String tEmail = (String) params.get("tEmail");// 邮箱
+//		String tPassword = (String) params.get("tPassword");// 密码
+//		String tNumber = (String) params.get("tNumber");// 职工号
+//		String tName = (String) params.get("tName");//姓名
+		String tPhone = request.getParameter("tPhone");
+		String tEmail = request.getParameter("tEmail");
+		String tPassword = request.getParameter("tPassword");
+		String tNumber = request.getParameter("tNumber");
+		String tName = request.getParameter("tName");
 		if (StringUtil.isBlank(tEmail) && StringUtil.isBlank(tPhone)) {
 			return responseMsg("REGTEA0005","REGTEA");
 		}
-		String tPassword = (String) params.get("tPassword");// 密码
 		if (StringUtil.isBlank(tPassword)) {
 			return responseMsg("REGTEA0006","REGTEA");
 		}
-		String tNumber = (String) params.get("tNumber");// 学号
 		if (StringUtil.isBlank(tNumber)) {
 			return responseMsg("REGTEA0007","REGTEA");
 		}
 		TeacherReg tReg = new TeacherReg();
+		tReg.setName(tName);
 		tReg.setTeaPhone(tPhone);
 		tReg.setTeaEmail(tEmail);
 		tReg.setTeaPassword(tPassword);
@@ -83,13 +91,17 @@ public class TeacherRegController {
 	 */
 	@RequestMapping("/queryTeaReg")
 	@ResponseBody
-	public JSONObject queryTeaReg(@RequestBody Map<String, Object> params) {
+	public JSONObject queryTeaReg(HttpServletRequest request) {//@RequestBody Map<String, Object> params
 		JSONObject json = new JSONObject();
 		/* 查询条件 */
-		String tPhone = (String) params.get("tPhone");// 手机号
-		String tEmail = (String) params.get("tEmail");// 邮箱
-		String tNumber = (String) params.get("tNumber");// 学号
-		String status = (String) params.get("status");//状态
+//		String tPhone = (String) params.get("tPhone");// 手机号
+//		String tEmail = (String) params.get("tEmail");// 邮箱
+//		String tNumber = (String) params.get("tNumber");// 学号
+//		String status = (String) params.get("status");//状态
+		String tPhone = request.getParameter("tPhone");
+		String tEmail = request.getParameter("tEmail");
+		String tNumber = request.getParameter("tNumber");
+		String status = request.getParameter("status");
 		TeacherReg tReg = new TeacherReg();
 		// 非空判断,不包括空格
 		if (StringUtil.isNotBlank(tPhone)) {
