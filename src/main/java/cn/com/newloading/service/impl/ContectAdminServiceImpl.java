@@ -11,10 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.com.newloading.bean.Admin;
 import cn.com.newloading.bean.ContectAdmin;
 import cn.com.newloading.bean.Student;
+import cn.com.newloading.bean.Teacher;
 import cn.com.newloading.bean.dto.ContectAdminDto;
 import cn.com.newloading.dao.AdminDao;
 import cn.com.newloading.dao.ContectAdminDao;
 import cn.com.newloading.dao.StudentDao;
+import cn.com.newloading.dao.TeacherDao;
 import cn.com.newloading.enums.RoleType;
 import cn.com.newloading.service.ContectAdminService;
 import cn.com.newloading.utils.StringUtil;
@@ -27,6 +29,8 @@ public class ContectAdminServiceImpl implements ContectAdminService {
 	private ContectAdminDao contectAdminDao;
 	@Autowired
 	private StudentDao studentDao;
+	@Autowired
+	private TeacherDao teacherDao;
 	@Autowired
 	private AdminDao adminDao;
 	
@@ -78,7 +82,10 @@ public class ContectAdminServiceImpl implements ContectAdminService {
 					dto.setRole(admin);
 					dtoList.add(dto);
 				}else if(RoleType.TEA.getRole().equals(ca.getForeignType())){
-					
+					Teacher teacher = teacherDao.queryTeacherById(ca.getForeignId());
+					dto.setContectAdmin(ca);
+					dto.setRole(teacher);
+					dtoList.add(dto);
 				}
 			}
 			return dtoList;
@@ -97,7 +104,10 @@ public class ContectAdminServiceImpl implements ContectAdminService {
 				cad.setRole(admin);
 				dtoList.add(cad);
 			}else if(RoleType.TEA.getRole().equals(cadm.getForeignType())){
-				
+				Teacher teacher = teacherDao.queryTeacherById((cadm.getForeignId()));
+				cad.setContectAdmin(cadm);
+				cad.setRole(teacher);
+				dtoList.add(cad);
 			}
 			
 			List<ContectAdmin> contectAdminList = contectAdminDao.queryContectAdmin(contectAdmin);
@@ -115,7 +125,10 @@ public class ContectAdminServiceImpl implements ContectAdminService {
 					dto.setRole(admin);
 					dtoList.add(dto);
 				}else if(RoleType.TEA.getRole().equals(ca.getForeignType())){
-					
+					Teacher teacher = teacherDao.queryTeacherById((cadm.getForeignId()));
+					cad.setContectAdmin(cadm);
+					cad.setRole(teacher);
+					dtoList.add(cad);
 				}
 			}
 			return dtoList;

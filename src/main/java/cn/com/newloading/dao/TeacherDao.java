@@ -3,6 +3,7 @@ package cn.com.newloading.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import cn.com.newloading.bean.Teacher;
 
@@ -36,4 +37,10 @@ public interface TeacherDao {
 	 * @return
 	 */
 	Integer addTea(Teacher t);
+	
+	/**
+	 * 根据教师id查询单个教师
+	 * @return
+	 */
+	Teacher queryTeacherById(@Param("teaId") String teaId); 
 }

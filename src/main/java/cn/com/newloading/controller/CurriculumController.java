@@ -18,6 +18,7 @@ import cn.com.newloading.bean.Curriculum;
 import cn.com.newloading.bean.Dict;
 import cn.com.newloading.bean.Student;
 import cn.com.newloading.bean.Teacher;
+import cn.com.newloading.bean.dto.CurriculumDto;
 import cn.com.newloading.enums.SelectMenu;
 import cn.com.newloading.service.CurriculumService;
 import cn.com.newloading.service.DictService;
@@ -35,26 +36,26 @@ public class CurriculumController {
 	//教师新增课程
 	@RequestMapping("/addCurriculum")
 	@ResponseBody
-	public JSONObject addCurriculum(HttpServletRequest request,@RequestBody Map<String, Object> params) {
-		String name = (String) params.get("name");
-//		String name = request.getParameter("name");
+	public JSONObject addCurriculum(HttpServletRequest request) {
+//		String name = (String) params.get("name");
+		String name = request.getParameter("name");
 		if(StringUtil.isBlank(name)) {
 			return responseMsg("KC0002","KC");
 		}
-		String intro = (String) params.get("intro");
-//		String intro = request.getParameter("intro");
+//		String intro = (String) params.get("intro");
+		String intro = request.getParameter("intro");
 		if(StringUtil.isBlank(intro)) {
 			return responseMsg("KC0002","KC");
 		}
-		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
-		if(teacher == null || StringUtil.isBlank(teacher.getId())) {
-			return responseMsg("TEA00006","TEACHER");
-		}
+//		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
+//		if(teacher == null || StringUtil.isBlank(teacher.getId())) {
+//			return responseMsg("TEA00006","TEACHER");
+//		}
 		Curriculum curriculum = new Curriculum();
 		curriculum.setName(name);
 		curriculum.setIntro(intro);
-		curriculum.setTeacherId(teacher.getId());
-//		curriculum.setTeacherId("1");
+//		curriculum.setTeacherId(teacher.getId());
+		curriculum.setTeacherId("1");
 		String retCode = curriculumService.addCurriculum(curriculum);
 		return responseMsg(retCode,"KC");
 	}
@@ -84,7 +85,7 @@ public class CurriculumController {
 		if(StringUtil.isBlank(select)) {
 			return responseMsg("KC0002","KC");
 		}
-		if(!SelectMenu.SC.getP().equals(select) || !SelectMenu.MC.getP().equals(select)) {
+		if(!SelectMenu.SC.getP().equals(select) && !SelectMenu.MC.getP().equals(select)) {
 			return responseMsg("KC0003","KC");
 		}
 		JSONObject json = new JSONObject();
@@ -93,7 +94,7 @@ public class CurriculumController {
 			return responseMsg("STU00006","STUDENT");
 		}
 		String stuId = student.getId();
-		List<Curriculum> cList = new ArrayList<Curriculum>();
+		List<CurriculumDto> cList = new ArrayList<CurriculumDto>();
 		if(SelectMenu.SC.getP().equals(select)) {
 			cList = curriculumService.queryCurriculumForStudent(stuId);
 		}else {
@@ -129,6 +130,14 @@ public class CurriculumController {
 		dict = dictList.get(0);
 		json.put("retCode", dict.getCode());
 		json.put("retMsg", dict.getValue());
+		return json;
+	}
+	
+	@RequestMapping("/test")
+	@ResponseBody
+	public JSONObject test(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		JSONObject json = new JSONObject();
+		String test = (String) params.get("test");//参数名
 		return json;
 	}
 	

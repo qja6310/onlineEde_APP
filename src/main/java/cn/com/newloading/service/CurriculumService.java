@@ -3,6 +3,7 @@ package cn.com.newloading.service;
 import java.util.List;
 
 import cn.com.newloading.bean.Curriculum;
+import cn.com.newloading.bean.dto.CurriculumDto;
 
 public interface CurriculumService {
 
@@ -25,14 +26,14 @@ public interface CurriculumService {
 	 * @param curriculum
 	 * @return
 	 */
-	List<Curriculum> queryCurriculumForStudent(String stuId);
+	List<CurriculumDto> queryCurriculumForStudent(String stuId);
 	
 	/**
 	 * 学生已选择的课程
 	 * @param curriculum
 	 * @return
 	 */
-	List<Curriculum> queryCurriculumForS(String stuId);
+	List<CurriculumDto> queryCurriculumForS(String stuId);
 	
 	/**
 	 * 学生确认课程

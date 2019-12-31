@@ -1,6 +1,6 @@
 package cn.com.newloading.bean;
 
-public class Teacher {
+public class Teacher extends Role{
 
 	private String id;
 	private String teaEmail;

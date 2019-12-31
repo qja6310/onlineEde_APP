@@ -13,8 +13,23 @@
     <select id="queryCurriculumForTeacher" resultMap="cuResultMap">
     	SELECT ID,NAME,INTRO,CREATE_TIME,TEACHER_ID FROM t_curriculum WHERE TEACHER_ID = #{tId}
     </select>
+    
     <insert id="addCurriculum" keyProperty="id" parameterType="cn.com.newloading.bean.Curriculum">
     	INSERT INTO t_curriculum (NAME,INTRO,CREATE_TIME,TEACHER_ID) 
     	VALUES (#{name},#{intro},#{createTime},#{teacherId})
+    </insert>
+    
+    <select id="queryCurriculumForStudent" resultMap="cuResultMap">
+		SELECT ID,NAME,INTRO,CREATE_TIME,TEACHER_ID FROM t_curriculum WHERE
+		ID &lt;&gt;(SELECT IFNULL(CU_ID,-1) cuId FROM t_cu_stu WHERE STU_ID = #{stuId})
+    </select>
+    
+    <select id="queryCurriculumForS" resultMap="cuResultMap">
+    	SELECT C.* FROM t_curriculum C LEFT JOIN t_cu_stu CS ON C.ID = CS.CU_ID WHERE CS.STU_ID = #{stuId}
+    </select>
+    
+     <insert id="sureCurriculum" keyProperty="id" parameterType="cn.com.newloading.bean.CurriculumLinkStudent">
+    	INSERT INTO t_cu_stu (CU_ID,STU_ID,TIME) 
+    	VALUES (#{cuId},#{stuId},#{time})
     </insert>
 </mapper>

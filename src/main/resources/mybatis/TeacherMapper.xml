@@ -26,4 +26,8 @@
     	<if test="teaEmail != null and teaEmail != ''"> AND T_EMAIL = #{teaEmail}</if>
     	ORDER BY ID DESC
     </select>
+    
+     <select id="queryTeacherById" resultMap="teaResultMap">
+     	SELECT ID,NAME,T_PHONE,T_EMAIL,T_PASSWORD,T_NUMBER,ROLE FROM t_teacher WHERE ID = #{teaId}
+     </select>
 </mapper>
