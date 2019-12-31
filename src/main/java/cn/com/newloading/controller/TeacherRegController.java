@@ -40,9 +40,9 @@ public class TeacherRegController {
 	 */
 	@RequestMapping("/registerTea")
 	@ResponseBody
-	public JSONObject registerTea(HttpServletRequest request) {//,@RequestBody Map<String, Object> params
-//		String code = (String) params.get("verificationCode");//验证码
-		String code = request.getParameter("verificationCode");//验证码
+	public JSONObject registerTea(HttpServletRequest request,@RequestBody Map<String, Object> params) {//
+		String code = (String) params.get("verificationCode");//验证码
+//		String code = request.getParameter("verificationCode");//验证码
 		if(StringUtil.isEmpty(code)) {
 			return responseMsg("CODE0002","CODE");
 		}
@@ -53,16 +53,16 @@ public class TeacherRegController {
 		if(!code.equalsIgnoreCase(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
-//		String tPhone = (String) params.get("tPhone");// 手机号
-//		String tEmail = (String) params.get("tEmail");// 邮箱
-//		String tPassword = (String) params.get("tPassword");// 密码
-//		String tNumber = (String) params.get("tNumber");// 职工号
-//		String tName = (String) params.get("tName");//姓名
-		String tPhone = request.getParameter("tPhone");
-		String tEmail = request.getParameter("tEmail");
-		String tPassword = request.getParameter("tPassword");
-		String tNumber = request.getParameter("tNumber");
-		String tName = request.getParameter("tName");
+		String tPhone = (String) params.get("tPhone");// 手机号
+		String tEmail = (String) params.get("tEmail");// 邮箱
+		String tPassword = (String) params.get("tPassword");// 密码
+		String tNumber = (String) params.get("tNumber");// 职工号
+		String tName = (String) params.get("tName");//姓名
+//		String tPhone = request.getParameter("tPhone");
+//		String tEmail = request.getParameter("tEmail");
+//		String tPassword = request.getParameter("tPassword");
+//		String tNumber = request.getParameter("tNumber");
+//		String tName = request.getParameter("tName");
 		if (StringUtil.isBlank(tEmail) && StringUtil.isBlank(tPhone)) {
 			return responseMsg("REGTEA0005","REGTEA");
 		}
@@ -91,17 +91,17 @@ public class TeacherRegController {
 	 */
 	@RequestMapping("/queryTeaReg")
 	@ResponseBody
-	public JSONObject queryTeaReg(HttpServletRequest request) {//@RequestBody Map<String, Object> params
+	public JSONObject queryTeaReg(HttpServletRequest request,@RequestBody Map<String, Object> params) {//
 		JSONObject json = new JSONObject();
 		/* 查询条件 */
-//		String tPhone = (String) params.get("tPhone");// 手机号
-//		String tEmail = (String) params.get("tEmail");// 邮箱
-//		String tNumber = (String) params.get("tNumber");// 学号
-//		String status = (String) params.get("status");//状态
-		String tPhone = request.getParameter("tPhone");
-		String tEmail = request.getParameter("tEmail");
-		String tNumber = request.getParameter("tNumber");
-		String status = request.getParameter("status");
+		String tPhone = (String) params.get("tPhone");// 手机号
+		String tEmail = (String) params.get("tEmail");// 邮箱
+		String tNumber = (String) params.get("tNumber");// 学号
+		String status = (String) params.get("status");//状态
+//		String tPhone = request.getParameter("tPhone");
+//		String tEmail = request.getParameter("tEmail");
+//		String tNumber = request.getParameter("tNumber");
+//		String status = request.getParameter("status");
 		TeacherReg tReg = new TeacherReg();
 		// 非空判断,不包括空格
 		if (StringUtil.isNotBlank(tPhone)) {
@@ -127,7 +127,7 @@ public class TeacherRegController {
 
 	@RequestMapping("/auditTeacherReg")
 	@ResponseBody
-	public JSONObject auditTeacherReg(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+	public JSONObject auditTeacherReg(HttpServletRequest request,@RequestBody Map<String, Object> params) {//
 		/* 条件判断 */
 		// session里面取adminId
 		Admin admin = (Admin) request.getSession().getAttribute("admin");
@@ -137,18 +137,22 @@ public class TeacherRegController {
 			return responseMsg("AUDIT0012","AUDIT");
 		}
 		String tRegId = (String) params.get("tRegId");
+//		String tRegId = request.getParameter("tRegId");
 		if (StringUtil.isBlank(tRegId)) {
 			return responseMsg("AUDIT0013","AUDIT");
 		}
 		String auditResult = (String) params.get("auditResult");
+//		String auditResult = request.getParameter("auditResult");
 //		if (StringUtil.isBlank(auditResult)) {
 //			return responseMsg("AUDIT0013","AUDIT");
 //		}
 		String dealExplain = (String) params.get("dealExplain");
+//		String dealExplain = request.getParameter("dealExplain");
 //		if (StringUtil.isBlank(dealExplain)) {
 //			return responseMsg("AUDIT0013","AUDIT");
 //		}
 		String status = (String) params.get("status");
+//		String status = request.getParameter("status");
 		if (StringUtil.isBlank(status)) {
 			return responseMsg("AUDIT0013","AUDIT");
 		}

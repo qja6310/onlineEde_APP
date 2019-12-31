@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,9 +30,9 @@ public class TeacherController {
 	
 	@RequestMapping("/teacherLogin")
 	@ResponseBody
-	public JSONObject teacherLogin(HttpServletRequest request) {
-//		String code = (String) params.get("verificationCode");//验证码
-		String code = request.getParameter("verificationCode");//验证码
+	public JSONObject teacherLogin(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String code = (String) params.get("verificationCode");//验证码
+//		String code = request.getParameter("verificationCode");//验证码
 		if(StringUtil.isEmpty(code)) {
 			return responseMsg("CODE0002","CODE");
 		}
@@ -42,11 +43,13 @@ public class TeacherController {
 		if(!code.equalsIgnoreCase(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
-		String tNumber = request.getParameter("tNumber");
+		String tNumber = (String) params.get("tNumber");
+//		String tNumber = request.getParameter("tNumber");
 		if(StringUtil.isBlank(tNumber)) {
 			return responseMsg("TEA00002","TEACHER");
 		}
-		String tPassword = request.getParameter("tPassword");
+		String tPassword = (String) params.get("tPassword");
+//		String tPassword = request.getParameter("tPassword");
 		if(StringUtil.isBlank(tPassword)) {
 			return responseMsg("TEA00003","TEACHER");
 		}
@@ -62,8 +65,9 @@ public class TeacherController {
 	
 	@RequestMapping("/findTeacher")
 	@ResponseBody
-	public JSONObject findTeacher(HttpServletRequest request) {
-		String code = request.getParameter("verificationCode");//验证码
+	public JSONObject findTeacher(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String code = (String) params.get("verificationCode");//验证码
+//		String code = request.getParameter("verificationCode");//验证码
 		if(StringUtil.isEmpty(code)) {
 			return responseMsg("CODE0002","CODE");
 		}
@@ -74,9 +78,12 @@ public class TeacherController {
 		if(!code.equals(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
-		String tNumber = request.getParameter("tNumber");//职工号
-		String tPhone = request.getParameter("tPhone");
-		String tEmail = request.getParameter("tEmail");
+		String tNumber = (String) params.get("tNumber");//职工号
+		String tPhone = (String) params.get("tPhone");
+		String tEmail = (String) params.get("tEmail");
+//		String tNumber = request.getParameter("tNumber");//职工号
+//		String tPhone = request.getParameter("tPhone");
+//		String tEmail = request.getParameter("tEmail");
 		if(StringUtil.isBlank(tNumber)) {
 			return responseMsg("TEA00002","TEACHER");
 		}

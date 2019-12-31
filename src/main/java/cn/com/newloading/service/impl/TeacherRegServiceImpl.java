@@ -100,7 +100,7 @@ public class TeacherRegServiceImpl implements TeacherRegService {
 			t.setRole(RoleType.TEA.getRole());
 			Integer teaId = tDao.addTea(t);
 			if (teaId == null || teaId <= 0) {
-				return "AUDIT0009";
+				return "AUDIT0009T";
 			}
 		}
 
@@ -113,9 +113,9 @@ public class TeacherRegServiceImpl implements TeacherRegService {
 		tReg.setStatus(status);
 		Integer res =tRegDao.editTeacherReg(tReg);
 		if (res > 0) {
-			return "AUDIT0010";// 修改成功
+			return "AUDIT0010T";// 修改成功
 		} else {
-			return "AUDIT0011";// 修改失败
+			return "AUDIT0011T";// 修改失败
 		}
 	}
 
