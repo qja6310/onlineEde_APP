@@ -1,11 +1,13 @@
 package cn.com.newloading.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -33,12 +35,12 @@ public class DiscussController {
 	
 	@RequestMapping("/addDiscussForS")
 	@ResponseBody
-	public JSONObject addDiscussForStudent(HttpServletRequest request) {
-		String cuId = request.getParameter("cuId");
+	public JSONObject addDiscussForStudent(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String cuId = (String) params.get("cuId");
 		if(StringUtil.isBlank(cuId)) {
 			return responseMsg("DIS0002","DIS");
 		}
-		String content = request.getParameter("content");
+		String content = (String) params.get("content");
 		if(StringUtil.isBlank(content)) {
 			return responseMsg("DIS0002","DIS");
 		}
@@ -57,12 +59,14 @@ public class DiscussController {
 	
 	@RequestMapping("/addDiscussForT")
 	@ResponseBody
-	public JSONObject addDiscussForT(HttpServletRequest request) {
-		String cuId = request.getParameter("cuId");
+	public JSONObject addDiscussForT(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String cuId = (String) params.get("cuId");
+//		String cuId = request.getParameter("cuId");
 		if(StringUtil.isBlank(cuId)) {
 			return responseMsg("DIS0002","DIS");
 		}
-		String content = request.getParameter("content");
+		String content = (String) params.get("content");
+//		String content = request.getParameter("content");
 		if(StringUtil.isBlank(cuId)) {
 			return responseMsg("DIS0002","DIS");
 		}
@@ -79,10 +83,12 @@ public class DiscussController {
 		return responseMsg(ret,"DIS");
 	}
 	
+	//查询某一课程讨论区的内容
 	@RequestMapping("/queryDiscuss")
 	@ResponseBody
-	public JSONObject queryDiscuss(HttpServletRequest request) {
-		String cuId = request.getParameter("cuId");
+	public JSONObject queryDiscuss(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String cuId = (String) params.get("cuId");
+//		String cuId = request.getParameter("cuId");
 		if(StringUtil.isBlank(cuId)) {
 			return responseMsg("DIS0002","DIS");
 		}
@@ -91,6 +97,9 @@ public class DiscussController {
 		json.put("dtoList", dtoList);
 		return json;
 	}
+	
+	//删除某一记录
+	
 	
 	/*错误码返回*/
 	private JSONObject responseMsg(String code,String type) {
