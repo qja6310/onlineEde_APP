@@ -74,7 +74,7 @@ public class StudentController {
 		if(StringUtil.isEmpty(verificationCode)) {
 			return responseMsg("CODE0003","CODE");
 		}
-		if(!code.equals(verificationCode)) {
+		if(!code.equalsIgnoreCase(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
 		String stuStudyNumber = (String) params.get("stuStudyNumber");
