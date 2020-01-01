@@ -42,4 +42,11 @@ public interface CurriculumService {
 	 * @return
 	 */
 	String sureCurriculum(String cuId,String stuId);
+	
+	/**
+	 * 管理员看到的课程
+	 * @param curriculum
+	 * @return
+	 */
+	List<CurriculumDto> queryCurriculumForA();
 }

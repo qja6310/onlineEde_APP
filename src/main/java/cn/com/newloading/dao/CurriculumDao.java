@@ -25,12 +25,12 @@ public interface CurriculumDao {
 	 */
 	List<Curriculum> queryCurriculumForTeacher(@Param("tId")String tId);
 	
-	/**
-	 * 学生查询课程，不包括自己已选择好的课程
-	 * @param stuId
-	 * @return
-	 */
-	List<Curriculum> queryCurriculumForStudent(@Param("stuId")String stuId);
+//	/**
+//	 * 学生查询课程，不包括自己已选择好的课程
+//	 * @param stuId
+//	 * @return
+//	 */
+//	List<Curriculum> queryCurriculumForStudent(@Param("stuId")String stuId);
 	
 	/**
 	 * 学生查询自己已选择好的课程
@@ -45,4 +45,11 @@ public interface CurriculumDao {
 	 * @return
 	 */
 	Integer sureCurriculum(CurriculumLinkStudent cls);
+	
+	/**
+	 * 管理员查询所有课程
+	 * @param stuId
+	 * @return
+	 */
+	List<Curriculum> queryCurriculum();
 }

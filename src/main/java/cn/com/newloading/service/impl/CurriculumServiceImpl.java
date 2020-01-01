@@ -47,7 +47,19 @@ public class CurriculumServiceImpl implements CurriculumService {
 	@Override
 	public List<CurriculumDto> queryCurriculumForStudent(String stuId) {
 		// TODO Auto-generated method stub
-		List<Curriculum> cuList = curriculumDao.queryCurriculumForStudent(stuId);
+		List<Curriculum> cuList = curriculumDao.queryCurriculum();//所有课程
+		List<Curriculum> cList = curriculumDao.queryCurriculumForS(stuId);//查询已选择的课程
+		if(cList != null) {
+			for (int i = 0; i < cList.size(); i++) {
+				for (int j = 0; j < cuList.size(); j++) {
+					if(cList.get(i).getId().equals(cuList.get(j).getId())) {
+						cuList.remove(j);
+						break;
+					}
+				}
+			}
+		}
+	
 		List<CurriculumDto> dtoList = new ArrayList<CurriculumDto>();
 		if(cuList != null) {
 			for (int i = 0; i < cuList.size(); i++) {
@@ -96,5 +108,24 @@ public class CurriculumServiceImpl implements CurriculumService {
 		}else {
 			return "KC0001";
 		}
+	}
+
+	@Override
+	public List<CurriculumDto> queryCurriculumForA() {
+		List<Curriculum> cuList = curriculumDao.queryCurriculum();
+		List<CurriculumDto> dtoList = new ArrayList<CurriculumDto>();
+		if(cuList != null) {
+			for (int i = 0; i < cuList.size(); i++) {
+				//课程
+				Curriculum cu = cuList.get(i);
+				//教师
+				Teacher teacher = teacherDao.queryTeacherById(cu.getTeacherId());
+				CurriculumDto dto = new CurriculumDto();
+				dto.setCurriculum(cu);
+				dto.setTeacher(teacher);
+				dtoList.add(dto);
+			}
+		}
+		return dtoList;
 	}
 }

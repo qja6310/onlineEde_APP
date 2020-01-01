@@ -19,9 +19,13 @@
     	VALUES (#{name},#{intro},#{createTime},#{teacherId})
     </insert>
     
-    <select id="queryCurriculumForStudent" resultMap="cuResultMap">
+    <!-- <select id="queryCurriculumForStudent" resultMap="cuResultMap">
 		SELECT ID,NAME,INTRO,CREATE_TIME,TEACHER_ID FROM t_curriculum WHERE
 		ID &lt;&gt;(SELECT IFNULL(CU_ID,-1) cuId FROM t_cu_stu WHERE STU_ID = #{stuId})
+    </select> -->
+    
+    <select id="queryCurriculum" resultMap="cuResultMap">
+		SELECT ID,NAME,INTRO,CREATE_TIME,TEACHER_ID FROM t_curriculum
     </select>
     
     <select id="queryCurriculumForS" resultMap="cuResultMap">
@@ -32,4 +36,8 @@
     	INSERT INTO t_cu_stu (CU_ID,STU_ID,TIME) 
     	VALUES (#{cuId},#{stuId},#{time})
     </insert>
+    
+ <!--    <select id="queryCurriculumForA" resultMap="cuResultMap">
+		SELECT ID,NAME,INTRO,CREATE_TIME,TEACHER_ID FROM t_curriculum
+    </select> -->
 </mapper>

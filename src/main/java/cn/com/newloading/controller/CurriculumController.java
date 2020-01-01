@@ -36,26 +36,26 @@ public class CurriculumController {
 	//教师新增课程
 	@RequestMapping("/addCurriculum")
 	@ResponseBody
-	public JSONObject addCurriculum(HttpServletRequest request) {
-//		String name = (String) params.get("name");
-		String name = request.getParameter("name");
+	public JSONObject addCurriculum(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String name = (String) params.get("name");
+//		String name = request.getParameter("name");
 		if(StringUtil.isBlank(name)) {
 			return responseMsg("KC0002","KC");
 		}
-//		String intro = (String) params.get("intro");
-		String intro = request.getParameter("intro");
+		String intro = (String) params.get("intro");
+//		String intro = request.getParameter("intro");
 		if(StringUtil.isBlank(intro)) {
 			return responseMsg("KC0002","KC");
 		}
-//		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
-//		if(teacher == null || StringUtil.isBlank(teacher.getId())) {
-//			return responseMsg("TEA00006","TEACHER");
-//		}
+		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
+		if(teacher == null || StringUtil.isBlank(teacher.getId())) {
+			return responseMsg("TEA00006","TEACHER");
+		}
 		Curriculum curriculum = new Curriculum();
 		curriculum.setName(name);
 		curriculum.setIntro(intro);
-//		curriculum.setTeacherId(teacher.getId());
-		curriculum.setTeacherId("1");
+		curriculum.setTeacherId(teacher.getId());
+//		curriculum.setTeacherId("1");
 		String retCode = curriculumService.addCurriculum(curriculum);
 		return responseMsg(retCode,"KC");
 	}
@@ -122,6 +122,16 @@ public class CurriculumController {
 		String retCode = curriculumService.sureCurriculum(cuId, stuId);
 		return responseMsg(retCode,"KC");
 	}
+	
+	@RequestMapping("/qcfa")
+	@ResponseBody
+	public JSONObject queryCurriculumForAdmin() {
+		JSONObject json = new JSONObject();
+		List<CurriculumDto> cList = curriculumService.queryCurriculumForA();
+		json.put("cList", cList);
+		return json;
+	}
+	
 	/*错误码返回*/
 	private JSONObject responseMsg(String code,String type) {
 		JSONObject json = new JSONObject();
