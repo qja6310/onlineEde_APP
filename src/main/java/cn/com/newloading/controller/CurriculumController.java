@@ -80,8 +80,9 @@ public class CurriculumController {
 	//学生展示课程
 	@RequestMapping("/qcfs")
 	@ResponseBody
-	public JSONObject queryCurriculumForStudent(HttpServletRequest request) {
-		String select = request.getParameter("select");
+	public JSONObject queryCurriculumForStudent(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String select = (String) params.get("select");
+//		String select = request.getParameter("select");
 		if(StringUtil.isBlank(select)) {
 			return responseMsg("KC0002","KC");
 		}
@@ -107,8 +108,9 @@ public class CurriculumController {
 	//学生确认课程
 	@RequestMapping("/sureCourse")
 	@ResponseBody
-	public JSONObject sureCurriculum(HttpServletRequest request) {
-		String cuId = request.getParameter("cuId");//课程id
+	public JSONObject sureCurriculum(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String cuId = (String) params.get("cuId");
+//		String cuId = request.getParameter("cuId");//课程id
 		if(StringUtil.isBlank(cuId)) {
 			return responseMsg("KC0002","KC");
 		}
@@ -130,14 +132,6 @@ public class CurriculumController {
 		dict = dictList.get(0);
 		json.put("retCode", dict.getCode());
 		json.put("retMsg", dict.getValue());
-		return json;
-	}
-	
-	@RequestMapping("/test")
-	@ResponseBody
-	public JSONObject test(HttpServletRequest request,@RequestBody Map<String, Object> params) {
-		JSONObject json = new JSONObject();
-		String test = (String) params.get("test");//参数名
 		return json;
 	}
 	
