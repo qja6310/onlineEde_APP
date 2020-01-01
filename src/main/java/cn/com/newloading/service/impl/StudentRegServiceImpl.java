@@ -14,6 +14,7 @@ import cn.com.newloading.dao.StudentRegDao;
 import cn.com.newloading.enums.AuditStatu;
 import cn.com.newloading.enums.RoleType;
 import cn.com.newloading.service.StudentRegService;
+import cn.com.newloading.utils.StringUtil;
 import cn.com.newloading.utils.TimeUtil;
 
 @Service
@@ -29,28 +30,33 @@ public class StudentRegServiceImpl implements StudentRegService {
 	public String registerStu(Student student) {
 		StudentReg studentReg = (StudentReg) student;
 		// 查询注册登陆账号是否可用
-		List<StudentReg> stuList = studentRegDao.queryStuRegByParms(student.getStuPhone(), null, null);
-		if (stuList.size() > 0) {// 手机号已被注册
-			return "REGSTU0001";// 表示账号已被注册过
+		if(StringUtil.isNotBlank(student.getStuPhone())) {
+			List<StudentReg> stuList = studentRegDao.queryStuRegByParms(student.getStuPhone(), null, null);
+			if (stuList.size() > 0) {// 手机号已被注册
+				return "REGSTU0001";// 表示账号已被注册过
+			}
 		}
 		// 查询该学号是否已被注册
-		stuList.clear();
-		stuList = studentRegDao.queryStuRegByParms(null, student.getStuStudyNumber(), null);
-		if (stuList.size() > 0) {
-			return "REGSTU0003";// 学号已被注册过
+		if(StringUtil.isNotBlank(student.getStuStudyNumber())) {
+			List<StudentReg> stuList = studentRegDao.queryStuRegByParms(null, student.getStuStudyNumber(), null);
+			if (stuList.size() > 0) {
+				return "REGSTU0003";// 学号已被注册过
+			}
 		}
+		
 		// 查询该邮箱是否已被注册
-		stuList.clear();
-		stuList = studentRegDao.queryStuRegByParms(null, null, student.getStuEmail());
-		if (stuList.size() > 0) {
-			return "REGSTU0008";// 邮箱已被注册过
+		if(StringUtil.isNotBlank(student.getStuEmail())) {
+			List<StudentReg> stuList = studentRegDao.queryStuRegByParms(null, null, student.getStuEmail());
+			if (stuList.size() > 0) {
+				return "REGSTU0008";// 邮箱已被注册过
+			}
 		}
+		
 		studentReg.setStatus(AuditStatu.PENDING.getP());
 		studentRegDao.registerStuReg(studentReg);// 注册到学生注册表,新增成功的id映射回对象
 		StudentReg sr = new StudentReg();
 		sr.setId(studentReg.getId());
-		stuList.clear();
-		stuList = studentRegDao.queryStuReg(sr);
+		List<StudentReg> stuList = studentRegDao.queryStuReg(sr);
 		if (stuList == null || stuList.size() == 0) {// 注册失败
 			return "REGSTU0002";
 		} else {// 注册提交成功

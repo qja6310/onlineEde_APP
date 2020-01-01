@@ -30,9 +30,9 @@ public class StudentController {
 	
 	@RequestMapping("/studentLogin")
 	@ResponseBody
-	public JSONObject studentLogin(HttpServletRequest request) {
-//		String code = (String) params.get("verificationCode");//验证码
-		String code = request.getParameter("verificationCode");//验证码
+	public JSONObject studentLogin(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String code = (String) params.get("verificationCode");//验证码
+//		String code = request.getParameter("verificationCode");//验证码
 		if(StringUtil.isEmpty(code)) {
 			return responseMsg("CODE0002","CODE");
 		}
@@ -43,13 +43,13 @@ public class StudentController {
 		if(!code.equalsIgnoreCase(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
-//		String stuStudyNumber = (String) params.get("stuStudyNumber");//学号登录
-		String stuStudyNumber = request.getParameter("stuStudyNumber");
+		String stuStudyNumber = (String) params.get("stuStudyNumber");//学号登录
+//		String stuStudyNumber = request.getParameter("stuStudyNumber");
 		if(StringUtil.isBlank(stuStudyNumber)) {
 			return responseMsg("STU00002","STUDENT");
 		}
-//		String stuPassword = (String) params.get("stuPassword");//密码
-		String stuPassword = request.getParameter("stuPassword");
+		String stuPassword = (String) params.get("stuPassword");//密码
+//		String stuPassword = request.getParameter("stuPassword");
 		if(StringUtil.isBlank(stuPassword)) {
 			return responseMsg("STU00003","STUDENT");
 		}
@@ -64,8 +64,9 @@ public class StudentController {
 	
 	@RequestMapping("/findStuent")
 	@ResponseBody
-	public JSONObject findStuent(HttpServletRequest request) {
-		String code = request.getParameter("verificationCode");//验证码
+	public JSONObject findStuent(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+		String code = (String) params.get("verificationCode");
+//		String code = request.getParameter("verificationCode");//验证码
 		if(StringUtil.isEmpty(code)) {
 			return responseMsg("CODE0002","CODE");
 		}
@@ -76,12 +77,15 @@ public class StudentController {
 		if(!code.equals(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
-		String stuStudyNumber = request.getParameter("stuStudyNumber");//学号
+		String stuStudyNumber = (String) params.get("stuStudyNumber");
+//		String stuStudyNumber = request.getParameter("stuStudyNumber");//学号
 		if(StringUtil.isBlank(stuStudyNumber)) {
 			return responseMsg("STU00002","STUDENT");
 		}
-		String stuPhone = request.getParameter("stuPhone");
-		String stuEmail = request.getParameter("stuEmail");
+		String stuPhone = (String) params.get("stuPhone");
+		String stuEmail = (String) params.get("stuEmail");
+//		String stuPhone = request.getParameter("stuPhone");
+//		String stuEmail = request.getParameter("stuEmail");
 		if (StringUtil.isBlank(stuEmail) && StringUtil.isBlank(stuPhone)) {
 			return responseMsg("REGSTU0005","REGSTU");
 		}
