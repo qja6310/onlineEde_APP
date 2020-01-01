@@ -21,4 +21,11 @@ public interface DiscussService {
 	 */
 	List<DiscussDto> queryDiscussByCuId(String cuId);
 	
+	/**
+	 * 删除评论
+	 * @param disId
+	 * @return
+	 */
+	String delDiscuss(String disId);
+	
 }

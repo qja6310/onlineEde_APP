@@ -24,4 +24,11 @@ public interface DiscussDao {
 	 */
 	List<Discuss> queryDiscussByCuId(@Param("cuId")String cuId);
 	
+	/**
+	 * 删除讨论区的内容
+	 * @param disId
+	 * @return
+	 */
+	Integer delDiscuss(@Param("disId") String disId);
+	
 }

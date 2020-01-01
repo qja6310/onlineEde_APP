@@ -19,4 +19,8 @@
     <select id="queryDiscussByCuId" resultMap="disResultMap">
     	SELECT ID,FOREIGN_ID,FOREIGN_TYPE,CONTENT,CU_ID,CREATE_TIME FROM t_discuss_area WHERE CU_ID = #{cuId}
     </select>
+    
+    <delete id="delDiscuss">
+    	DELETE FROM t_discuss_area WHERE ID = #{disId}
+    </delete>
 </mapper>

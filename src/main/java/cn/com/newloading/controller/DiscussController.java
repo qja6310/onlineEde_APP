@@ -99,6 +99,17 @@ public class DiscussController {
 	}
 	
 	//删除某一记录
+	@RequestMapping("/delDiscuss")
+	@ResponseBody
+	public JSONObject delDiscuss(@RequestBody Map<String, Object> params) {
+		String disId = (String) params.get("disId");
+//		String disId = request.getParameter("disId");
+		if(StringUtil.isBlank(disId)) {
+			return responseMsg("DIS0002","DIS");
+		}
+		String retcode = discussService.delDiscuss(disId);
+		return responseMsg(retcode,"DIS");
+	}
 	
 	
 	/*错误码返回*/

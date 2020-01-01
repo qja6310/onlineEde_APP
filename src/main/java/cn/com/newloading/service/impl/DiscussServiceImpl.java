@@ -62,4 +62,14 @@ public class DiscussServiceImpl implements DiscussService {
 		return dtoList;
 	}
 
+	@Override
+	public String delDiscuss(String disId) {
+		// TODO Auto-generated method stub
+		Integer res = discussDao.delDiscuss(disId);
+		if(res > 0) {
+			return "DIS0003";
+		}
+		return "DIS0004";
+	}
+
 }
