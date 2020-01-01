@@ -62,9 +62,9 @@ public class StudentController {
 		}
 	}
 	
-	@RequestMapping("/findStuent")
+	@RequestMapping("/findStudent")
 	@ResponseBody
-	public JSONObject findStuent(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+	public JSONObject findStudent(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		String code = (String) params.get("verificationCode");
 //		String code = request.getParameter("verificationCode");//验证码
 		if(StringUtil.isEmpty(code)) {
