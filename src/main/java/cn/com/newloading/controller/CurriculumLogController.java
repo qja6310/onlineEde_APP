@@ -54,9 +54,10 @@ public class CurriculumLogController {
 
 	@RequestMapping("/queryCurriculumLog")
 	@ResponseBody
-	public JSONObject queryCurriculumLog(HttpServletRequest request) {
+	public JSONObject queryCurriculumLog(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
-		String cId = request.getParameter("courseId");
+//		String cId = request.getParameter("courseId");
+		String cId = (String) params.get("courseId");
 		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
 		List<CurriculumLog> list = service.queryCurriculumLog(cId, teacher.getId());
 		json.put("list", list);
@@ -65,21 +66,22 @@ public class CurriculumLogController {
 	
 	@RequestMapping("/addCurriculumLog")
 	@ResponseBody
-	public JSONObject addCurriculumLog(HttpServletRequest request) {
+	public JSONObject addCurriculumLog(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
-		String cId = request.getParameter("courseId");
+//		String cId = request.getParameter("courseId");
+		String cId = (String) params.get("courseId");
 		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
-		
-		String notice = request.getParameter("CurriculumLogNotice");
-		String state = request.getParameter("CurriculumLogState");
+//		String notice = request.getParameter("CurriculumLogNotice");
+		String notice = (String) params.get("CurriculumLogNotice");
 		String time = TimeUtil.dateToString(new Date());
 		CurriculumLog c=new CurriculumLog();
 		c.setcId(cId);
 		c.settId(teacher.getId());
 		c.setNotice(notice);
-		c.setState(state);
+		c.setState("正常");
 		c.setTime(time);
 		int result = service.addCurriculumLog(c);
+		System.out.println(result);
 		if (result < 1) {
 			json.put("code", "0");
 			return json;
@@ -91,10 +93,12 @@ public class CurriculumLogController {
 
 	@RequestMapping("/editHomeworkTime")
 	@ResponseBody
-	public JSONObject editHomeworkTime(HttpServletRequest request) {
+	public JSONObject editHomeworkTime(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
-		String id = request.getParameter("courseLogId");
-		String time = request.getParameter("hwCommitTime");
+//		String id = request.getParameter("courseLogId");
+		String id = (String) params.get("courseLogId");
+//		String time = request.getParameter("hwCommitTime");
+		String time = (String) params.get("hwCommitTime");
 		int result = service.editHomeworkTime(time, id);
 		if (result < 1) {
 			json.put("code", "0");
@@ -106,11 +110,13 @@ public class CurriculumLogController {
 	
 	@RequestMapping("/addStudentCurriculumLog")
 	@ResponseBody
-	public JSONObject addStudentCurriculumLog(HttpServletRequest request) {
+	public JSONObject addStudentCurriculumLog(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
 		Student student = (Student) request.getSession().getAttribute("student");
-		String clId = request.getParameter("courseLogId");
-		String state = request.getParameter("stuCourceState");//出席 迟到 旷课
+//		String clId = request.getParameter("courseLogId");
+		String clId = (String) params.get("courseLogId");
+//		String state = request.getParameter("stuCourceState");//出席 迟到 旷课
+		String state = (String) params.get("stuCourceState");
 		String time = TimeUtil.dateToString(new Date());
 		int result = service.addStudentCurriculumLog(student.getId(), clId, state, time);
 		if (result < 1) {
@@ -123,7 +129,7 @@ public class CurriculumLogController {
 
 	@RequestMapping("/queryStudentOnCourse")
 	@ResponseBody
-	public JSONObject queryStudentOnCourse(HttpServletRequest request) {
+	public JSONObject queryStudentOnCourse(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
 		String clId = request.getParameter("courseLogId");
 		List<StudentCurriculumLog> list=service.queryStudentOnCourse(clId);
@@ -133,7 +139,7 @@ public class CurriculumLogController {
 
 	@RequestMapping("/stuCommitHomework")
 	@ResponseBody
-	public JSONObject stuCommitHomework(HttpServletRequest request) {
+	public JSONObject stuCommitHomework(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
 		Student student = (Student) request.getSession().getAttribute("student");
 		String clId = request.getParameter("courseLogId");
@@ -150,11 +156,12 @@ public class CurriculumLogController {
 	
 	@RequestMapping("/studentAbsent")
 	@ResponseBody
-	public JSONObject studentAbsent(HttpServletRequest request) {
+	public JSONObject studentAbsent(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
-		Student student = (Student) request.getSession().getAttribute("student");
-		String sclId = request.getParameter("stuCourseLogId");
-		String state = request.getParameter("stuAbsentState");//出席 迟到 缺席
+//		String sclId = request.getParameter("stuCourseLogId");
+		String sclId = (String) params.get("stuCourseLogId");
+//		String state = request.getParameter("stuAbsentState");
+		String state = (String) params.get("stuAbsentState");//出席 迟到 缺席
 		String time = TimeUtil.dateToString(new Date());
 		int result = service.studentAbsent(state, sclId);
 		if (result < 1) {
@@ -167,11 +174,13 @@ public class CurriculumLogController {
 
 	@RequestMapping("/studentScore")
 	@ResponseBody
-	public JSONObject studentScore(HttpServletRequest request) {
+	public JSONObject studentScore(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
 		Student student = (Student) request.getSession().getAttribute("student");
-		String sclId = request.getParameter("stuCourseLogId");
-		String stuScore = request.getParameter("stuScore");//分数
+//		String sclId = request.getParameter("stuCourseLogId");
+		String sclId = (String) params.get("stuCourseLogId");
+//		String stuScore = request.getParameter("stuScore");//分数
+		String stuScore = (String) params.get("stuScore");//分数
 		String time = TimeUtil.dateToString(new Date());
 		int result = service.studentScore(stuScore, sclId);
 		if (result < 1) {
@@ -185,9 +194,10 @@ public class CurriculumLogController {
 	
 	@RequestMapping("/studentAttendCount")
 	@ResponseBody
-	public JSONObject studentAttendCount(HttpServletRequest request) {
+	public JSONObject studentAttendCount(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
-		String cId = request.getParameter("courseId");
+//		String cId = request.getParameter("courseId");
+		String cId = (String) params.get("courseId");
 		List<StudentAttend> list=service.studentAttendCount(cId);
 		json.put("list", list);
 		return json;

@@ -24,7 +24,7 @@ public interface CurriculumLogDao {
 	 * @param cId 课程ID
 	 * @return
 	 */
-	List<CurriculumLog> queryCurriculumLog(String cId,String tId);
+	List<CurriculumLog> queryCurriculumLog(@Param("cId")String cId,@Param("tId")String tId);
 	
 	/**
 	 * 设置作业提交时间
@@ -48,7 +48,7 @@ public interface CurriculumLogDao {
 	 * @param clId
 	 * @return
 	 */
-	List<StudentCurriculumLog> queryStudentOnCourse(String clId);
+	List<StudentCurriculumLog> queryStudentOnCourse(@Param("clId")String clId);
 	
 	/**
 	 * 学生提交作业,未提交则为空
