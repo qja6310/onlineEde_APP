@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.newloading.dao.FileDao">
+	<resultMap type="cn.com.newloading.bean.FileBean" id="fileMap1">
+		<result column="F_ID" property="id" />
+		<result column="F_NAME" property="fname" />
+		<result column="F_UUID_NAME" property="fuuidName" />
+		<result column="F_EXTEND" property="fextend" />
+		<result column="F_PATH" property="fpath" />
+		<result column="F_STATE" property="fstate" />
+		<result column="F_TYPE" property="ftype" />
+		<result column="F_CHECK_TIME" property="fcheckTime" />
+		<result column="F_TIME" property="ftime" />
+		<result column="COMMOIT_ID" property="commitId" />
+		<result column="A_ID" property="adminId" />
+		<association property="teacher" javaType="cn.com.newloading.bean.Teacher">
+			<result property="ID" column="id"/>
+			<result property="NAME" column="name"/>
+		</association>
+		<association property="admin" javaType="cn.com.newloading.bean.Admin">
+			<result property="ID" column="id"/>
+			<result property="ADM_NAME" column="admName"/>
+		</association>
+	</resultMap>
+	
+	
+    <insert id="addFile" useGeneratedKeys="true" keyProperty="id" parameterType="cn.com.newloading.bean.FileBean">
+    	INSERT INTO t_file (F_NAME,F_UUID_NAME,F_EXTEND,F_PATH,F_STATE,F_TYPE,F_TIME,COMMOIT_ID) 
+    	VALUES (#{fname},#{fuuidName},#{fextend},#{fpath},#{fstate},#{ftype},#{ftime},#{commitId})
+    </insert>
+    
+    <insert id="fileLinkCurriculum" useGeneratedKeys="true" keyProperty="id" parameterType="cn.com.newloading.bean.FileCurriculumLog">
+    	INSERT INTO t_file_curriculum_log (CL_ID,F_ID) VALUES (#{clId},#{fId})
+    </insert>
+    
+    <!-- 审核 -->
+    <update id="checkFile" parameterType="cn.com.newloading.bean.FileBean">
+		UPDATE t_file SET F_STATE =#{fstate},F_CHECK_TIME =#{fcheckTime} WHERE F_ID =#{id}
+	</update>
+    
+    <delete id="delTea">
+		UPDATE t_file SET F_TYPE =#{ftype} WHERE F_ID =#{id}
+	</delete>
+    
+    <select id="queryFile" parameterType="cn.com.newloading.bean.FileBean" resultMap="fileMap1">
+    	SELECT DISTINCT f.F_ID,f.F_NAME,f.F_UUID_NAME,f.F_EXTEND,f.F_PATH,f.F_STATE,f.F_TYPE,f.F_CHECK_TIME,
+    	f.F_TIME,f.T_ID,tea.NAME,f.A_ID,a.ADM_NAME
+    	FROM t_file f
+    	INNER JOIN t_teacher tea ON tea.ID=f.T_ID
+    	INNER JOIN t_admin a ON a.ID=f.A_ID  
+    	<where>
+	    	<if test="id != null and id != ''"> AND f.F_ID = #{id}</if>
+	    	<if test="fname != null and fname != ''"> AND f.F_NAME = #{fname}</if>
+	    	<if test="fextend != null and fextend != ''"> AND f.F_EXTEND = #{fextend}</if>
+	    	<if test="fstate != null and fstate != ''"> AND f.F_STATE = #{fstate}</if>
+	    	<if test="ftype != null and ftype != ''"> AND f.F_TYPE = #{ftype}</if>
+	    	AND f.F_TYPE!='删除'
+    	</where>
+    </select>
+    
+    <resultMap type="cn.com.newloading.bean.FileBean" id="fileMap2">
+		<result column="F_ID" property="id" />
+		<result column="F_NAME" property="fname" />
+		<result column="F_UUID_NAME" property="fuuidName" />
+		<result column="F_EXTEND" property="fextend" />
+		<result column="F_PATH" property="fpath" />
+		<result column="F_STATE" property="fstate" />
+		<result column="F_TYPE" property="ftype" />
+		<result column="F_TIME" property="ftime" />
+	</resultMap>
+     <select id="queryStudentWorks" resultMap="fileMap2">
+    	SELECT DISTINCT f.F_ID,f.F_NAME,f.F_UUID_NAME,f.F_EXTEND,f.F_PATH,f.F_STATE,f.F_TYPE,
+    	f.F_TIME FROM t_file f
+    	<where>
+	    	<if test="id != null and id != ''"> AND f.F_ID = #{id}</if>
+	    	AND f.F_STATE = '学生'
+    	</where>
+    </select>
+    
+    <select id="selectFileIdByclId" resultType="string">
+		SELECT DISTINCT fcl.F_ID fId,
+		FROM t_file_curriculum_log fcl
+		INNER JOIN t_file f ON f.F_ID=fcl.F_ID
+		<where>
+			<if test="clId != null and clId !=''">AND fcl.CL_ID= #{id}</if>
+			<if test="type != null and type !=''">AND f.F_TYPE= #{type}</if>
+		</where>
+	</select>
+    
+</mapper>

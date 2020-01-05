@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.newloading.dao.CurriculumLogDao">
+	<resultMap type="cn.com.newloading.bean.CurriculumLog" id="map">
+		<result column="CL_ID" property="id" />
+		<result column="C_ID" property="cId" />
+		<result column="CL_TASK_TIME" property="taskTime" />
+		<result column="CL_NOTICE" property="notice" />
+		<result column="CL_STATE" property="state" />
+		<result column="CL_TIME" property="time" />
+		<result column="T_ID" property="tId" />
+	</resultMap>
+	
+	<!-- 发布课程通知 -->
+    <insert id="addCurriculumLog" useGeneratedKeys="true" keyProperty="id" parameterType="cn.com.newloading.bean.CurriculumLog">
+    	INSERT INTO t_curriculum_log (C_ID,CL_NOTICE,CL_STATE,CL_TIME,T_ID) 
+    	VALUES (#{cId},#{notice},#{state},#{time},#{tId})
+    </insert>
+    
+    <!-- 查看课程章节 -->
+    <select id="queryCurriculumLog" resultMap="map">
+		SELECT CL_ID,C_ID,CL_TASK_TIME,CL_NOTICE,CL_STATE,CL_TIME,T_ID FROM t_curriculum_log  
+		<where>
+			<if test="cId != null and cId !=''">AND C_ID= #{cId}</if>
+			<if test="tId != null and tId !=''">AND T_ID= #{tId}</if>
+		</where>
+	</select>
+	
+	<!-- 设置作业最晚提交时间 -->
+	<update id="editHomeworkTime" parameterType="cn.com.newloading.bean.CurriculumLog">
+		UPDATE t_curriculum_log SET CL_TASK_TIME =#{taskTime} WHERE CL_ID =#{id}
+	</update>
+    
+    <!-- 学生端：考勤签到 -->
+    <insert id="addStudentCurriculumLog" useGeneratedKeys="true" keyProperty="id" parameterType="cn.com.newloading.bean.StudentCurriculumLog">
+    	INSERT INTO t_stu_curriculum_log (S_ID,CL_ID,SCL_STATE,SCL_TIME) 
+    	VALUES (#{sId},#{clId},#{state},#{time})
+    </insert>
+
+    
+    <!-- 查询该节课程的所有学生 -->
+    <resultMap type="cn.com.newloading.bean.StudentCurriculumLog" id="mapStu">
+		<result column="SCL_ID" property="id" />
+		<result column="CL_ID" property="clId" />
+		<result column="S_ID" property="sId" />
+		<association property="student" javaType="cn.com.newloading.bean.Student">
+			<result property="ID" column="id"/>
+			<result column="STU_STUDY_NUMBER" property="stuStudyNumber" />
+		</association>
+	</resultMap>
+    <select id="queryStudentOnCourse" resultMap="mapStu">
+        SELECT scl.SCL_ID,s.ID,s.STU_STUDY_NUMBER FROM t_stu_curriculum_log scl
+		INNER JOIN t_students s ON s.ID=scl.S_ID
+		<where>
+			<if test="clId != null and clId !=''">AND scl.CL_ID= #{clId}</if>
+		</where>
+    </select>
+    <!-- 学生提交作业,未提交则为空 -->
+    <update id="stuCommitHomework">
+    	t_stu_curriculum_log SET SCL_HW_STATE=#{state},SCL_HW_TIME=#{hwtime} WHERE S_ID=#{sId} AND CL_ID=#{clId}
+    </update>
+    
+    <!-- 教师端：学生点名 -->
+    <update id="studentAbsent">
+    	t_stu_curriculum_log SET SCL_STATE=#{state} WHERE SCL_ID=#{sclId}
+    </update>
+    
+    <!-- 教师端：作业评分 -->
+    <update id="studentScore">
+    	t_stu_curriculum_log SET SCL_HW_SCORE=#{score} WHERE SCL_ID=#{sclId}
+    </update>
+    
+    <!-- 教师端：统计学生考勤数据 -->
+  	<select id="studentAttendCount" resultMap="cn.com.newloading.bean.StudentAttend">
+		SELECT scl.S_ID stuId,
+		COUNT(CASE WHEN SCL_STATE='正常' THEN '' END) zCount,
+		COUNT(CASE WHEN SCL_STATE='迟到' THEN '' END) cCount,
+		COUNT(CASE WHEN SCL_STATE='旷课' THEN '' END) kCount,
+		COUNT(CASE WHEN SCL_STATE='请假' THEN '' END) qCount 
+		FROM t_stu_curriculum_log scl
+		LEFT JOIN t_curriculum_log cl ON scl.CL_ID=cl.CL_ID
+		LEFT JOIN t_curriculum c ON c.ID=cl.C_ID
+		<where>
+			<if test="cId != null and cId !=''">AND c.ID=#{cId}</if>
+		</where>
+		GROUP BY scl.S_ID
+	</select>
+</mapper>

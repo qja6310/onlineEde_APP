@@ -30,9 +30,9 @@ public class TeacherController {
 	
 	@RequestMapping("/teacherLogin")
 	@ResponseBody
-	public JSONObject teacherLogin(HttpServletRequest request,@RequestBody Map<String, Object> params) {
-		String code = (String) params.get("verificationCode");//验证码
-//		String code = request.getParameter("verificationCode");//验证码
+	public JSONObject teacherLogin(HttpServletRequest request) {//,@RequestBody Map<String, Object> params
+//		String code = (String) params.get("verificationCode");//验证码
+		String code = request.getParameter("verificationCode");//验证码
 		if(StringUtil.isEmpty(code)) {
 			return responseMsg("CODE0002","CODE");
 		}
@@ -43,13 +43,13 @@ public class TeacherController {
 		if(!code.equalsIgnoreCase(verificationCode)) {
 			return responseMsg("CODE0001","CODE");
 		}
-		String tNumber = (String) params.get("tNumber");
-//		String tNumber = request.getParameter("tNumber");
+//		String tNumber = (String) params.get("tNumber");
+		String tNumber = request.getParameter("tNumber");
 		if(StringUtil.isBlank(tNumber)) {
 			return responseMsg("TEA00002","TEACHER");
 		}
-		String tPassword = (String) params.get("tPassword");
-//		String tPassword = request.getParameter("tPassword");
+//		String tPassword = (String) params.get("tPassword");
+		String tPassword = request.getParameter("tPassword");
 		if(StringUtil.isBlank(tPassword)) {
 			return responseMsg("TEA00003","TEACHER");
 		}
