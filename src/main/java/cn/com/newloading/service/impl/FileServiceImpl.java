@@ -38,8 +38,8 @@ public class FileServiceImpl implements FileService {
 	}
 	
 	@Override
-	public List<FileBean> selectFileIdByclId(String cId,String state) {
-		return fDao.selectFileIdByclId(cId,state);
+	public List<FileBean> selectFileIdByclId(String clId,String state) {
+		return fDao.selectFileIdByclId(clId,state);
 	}
 
 	@Override

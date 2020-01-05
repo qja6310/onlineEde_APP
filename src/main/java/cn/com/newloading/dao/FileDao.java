@@ -27,11 +27,11 @@ public interface FileDao {
 
 	/**
 	 * 查看该节课程的文件;查看学生作业
-	 * @param cId
-	 * @param state 待审核 、通过 、  驳回 、 学生
+	 * @param clId
+	 * @param fstate 待审核 、通过 、  驳回 、 学生
 	 * @return
 	 */
-	List<FileBean> selectFileIdByclId(@Param("cId")String cId,@Param("state")String state);
+	List<FileBean> selectFileIdByclId(@Param("clId")String clId,@Param("fstate")String fstate);
 	
 	/**
 	 * 教师发布文件

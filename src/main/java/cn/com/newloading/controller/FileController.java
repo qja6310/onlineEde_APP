@@ -52,13 +52,18 @@ public class FileController {
 
 	@RequestMapping("/queryFiles")
 	@ResponseBody
-	public JSONObject queryFiles(HttpServletRequest request) {
+	public JSONObject queryFiles(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
-		String id = request.getParameter("fileIdin");
-		String name = request.getParameter("fileNamein");
-		String extend = request.getParameter("fileExtendin");
-		String state = request.getParameter("fileStatein"); // 待审核 通过 驳回 学生
-		String type = request.getParameter("fileTypein");// 课件 作业 删除
+//		String id = request.getParameter("fileIdin");
+//		String name = request.getParameter("fileNamein");
+//		String extend = request.getParameter("fileExtendin");
+//		String state = request.getParameter("fileStatein"); // 待审核 通过 驳回 学生
+//		String type = request.getParameter("fileTypein");// 课件 作业 删除
+		String id = (String) params.get("fileIdin");
+		String name = (String) params.get("fileNamein");
+		String extend = (String) params.get("fileExtendin");
+		String state = (String) params.get("fileStatein"); // 待审核 通过 驳回 学生
+		String type = (String) params.get("fileTypein");// 课件 作业 删除
 		List<FileBean> list = fService.queryFiles(id, name, extend, state, type);
 		json.put("list", list);
 		return json;
@@ -66,10 +71,12 @@ public class FileController {
 
 	@RequestMapping("/selectFileIdByclId")
 	@ResponseBody
-	public JSONObject selectFileIdByclId(HttpServletRequest request) {
+	public JSONObject selectFileIdByclId(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
-		String clId = request.getParameter("courseLogId");
-		String state = request.getParameter("fileState");//待审核 、通过 、  驳回 、 学生
+//		String clId = request.getParameter("courseLogId");
+//		String state = request.getParameter("fileState");//待审核 、通过 、  驳回 、 学生
+		String clId = (String) params.get("courseLogId");
+		String state = (String) params.get("fileState");//待审核 、通过 、  驳回 、 学生
 		List<FileBean> list = fService.selectFileIdByclId(clId,state);
 		json.put("list", list);
 		return json;
@@ -77,10 +84,12 @@ public class FileController {
 
 	@RequestMapping("/checkFile")
 	@ResponseBody
-	public JSONObject checkFile(HttpServletRequest request) {
+	public JSONObject checkFile(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
-		String fId = request.getParameter("hiddenFid");
-		String state = request.getParameter("fileStatein");
+//		String fId = request.getParameter("hiddenFid");
+//		String state = request.getParameter("fileStatein");// 入参:  通过  驳回
+		String fId = (String) params.get("hiddenFid");
+		String state = (String) params.get("fileStatein");// 入参:  通过  驳回
 		int result = fService.checkFile(fId, state);
 		if (result < 1) {
 			json.put("code", "0");
@@ -92,10 +101,12 @@ public class FileController {
 
 	@RequestMapping("/delFile")
 	@ResponseBody
-	public JSONObject delFile(HttpServletRequest request) {
+	public JSONObject delFile(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
-		String fId = request.getParameter("hiddenFid");
-		String type = request.getParameter("fileTypein");// 入参: " 删除"
+//		String fId = request.getParameter("hiddenFid");
+//		String type = request.getParameter("fileTypein");// 入参: " 删除"
+		String fId = (String) params.get("hiddenFid");
+		String type = (String) params.get("fileTypein");// 入参: " 删除"
 		int result = fService.delFile(fId, type);
 		if (result < 1) {
 			json.put("code", "0");
@@ -107,12 +118,14 @@ public class FileController {
 
 	@RequestMapping("/fileUpload")
 	@ResponseBody
-	public JSONObject fileUpload(HttpServletRequest request) {// ,@RequestBody Map<String, Object> params
+	public JSONObject fileUpload(HttpServletRequest request,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
 		// 教师ID
 		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
-		String fileType = request.getParameter("fileType");// TODO 课件/作业
-		String cId = request.getParameter("currimlumId");
+//		String fileType = request.getParameter("fileType");// TODO 课件/作业
+//		String cId = request.getParameter("currimlumId");
+		String fileType = (String) params.get("fileType");// TODO 课件/作业
+		String cId = (String) params.get("currimlumId");
 		String root = "D:\\Games\\upload\\";
 		File file1 = new File(root);
 		if (!file1.exists()) {
@@ -177,11 +190,12 @@ public class FileController {
 
 	@RequestMapping("/fileStuCommit")
 	@ResponseBody
-	public JSONObject fileStuCommit(HttpServletRequest request) {// ,@RequestBody Map<String, Object> params
+	public JSONObject fileStuCommit(HttpServletRequest request,@RequestBody Map<String, Object> params) {// ,@RequestBody Map<String, Object> params
 		JSONObject json = new JSONObject();
 
 		Student student = (Student) request.getSession().getAttribute("student");
-		String clId = request.getParameter("currimlumLogId");
+//		String clId = request.getParameter("currimlumLogId");
+		String clId = (String) params.get("currimlumLogId");
 		String root = "D:\\Games\\studentWork\\";// 作业提交路径
 		File file1 = new File(root);
 		if (!file1.exists()) {
@@ -247,10 +261,11 @@ public class FileController {
 
 	@RequestMapping("/fileDownload")
 	@ResponseBody
-	public JSONObject downLoadFile(HttpServletRequest request, HttpServletResponse response) {
+	public JSONObject downLoadFile(HttpServletRequest request, HttpServletResponse response,@RequestBody Map<String, Object> params) {
 		JSONObject json = new JSONObject();
 
-		String testTxt = request.getParameter("filename");
+//		String testTxt = request.getParameter("filename");
+		String testTxt = (String) params.get("filename");
 		String path = "D:\\Games\\upload\\" + testTxt;
 		String fileName = path.substring(path.lastIndexOf("\\") + 1);
 		try {
