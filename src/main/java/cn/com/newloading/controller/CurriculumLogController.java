@@ -129,9 +129,10 @@ public class CurriculumLogController {
 
 	@RequestMapping("/queryStudentOnCourse")
 	@ResponseBody
-	public JSONObject queryStudentOnCourse(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+	public JSONObject queryStudentOnCourse(HttpServletRequest request,@RequestBody Map<String, Object> params) {//
 		JSONObject json = new JSONObject();
-		String clId = request.getParameter("courseLogId");
+//		String clId = request.getParameter("courseLogId");
+		String clId = (String) params.get("courseLogId");
 		List<StudentCurriculumLog> list=service.queryStudentOnCourse(clId);
 		json.put("list", list);
 		return json;

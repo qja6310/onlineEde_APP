@@ -41,17 +41,17 @@
     
     <!-- 查询该节课程的所有学生 -->
     <resultMap type="cn.com.newloading.bean.StudentCurriculumLog" id="mapStu1">
-		<result column="SCL_ID" property="id" />
-		<result column="S_ID" property="sId" />
-		<result column="CL_ID" property="clId" />
-		<result column="SCL_HW_STATE" property="hwState" />
-		<result column="SCL_HW_SCORE" property="hwScore" />
-		<result column="SCL_HW_TIME" property="hwTime" />
-		<result column="SCL_STATE" property="state" />
-		<result column="SCL_TIME" property="time" />
+		<id property="id" column="SCL_ID" />
+		<result property="sId" column="S_ID" />
+		<result property="clId" column="CL_ID" />
+		<result property="hwState" column="SCL_HW_STATE" />
+		<result property="hwScore" column="SCL_HW_SCORE" />
+		<result property="hwTime" column="SCL_HW_TIME" />
+		<result property="state" column="SCL_STATE" />
+		<result property="time" column="SCL_TIME" />
 		<association property="student" javaType="cn.com.newloading.bean.Student">
-			<result property="ID" column="id"/>
-			<result property="STU_STUDY_NUMBER" column="stuStudyNumber"/>
+			<result property="id" column="ID"/>
+			<result property="stuStudyNumber" column="STU_STUDY_NUMBER"/>
 		</association>
 	</resultMap>
     <select id="queryStudentOnCourse" resultMap="mapStu1">

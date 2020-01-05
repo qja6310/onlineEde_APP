@@ -15,12 +15,12 @@
 		<result column="COMMOIT_ID" property="commitId" />
 		<result column="A_ID" property="adminId" />
 		<association property="teacher" javaType="cn.com.newloading.bean.Teacher">
-			<result property="ID" column="id"/>
-			<result property="NAME" column="name"/>
+			<result property="id" column="ID"/>
+			<result property="name" column="NAME"/>
 		</association>
 		<association property="admin" javaType="cn.com.newloading.bean.Admin">
-			<result property="ID" column="id"/>
-			<result property="ADM_NAME" column="admName"/>
+			<result property="id" column="ID"/>
+			<result property="admName" column="ADM_NAME"/>
 		</association>
 	</resultMap>
 	
