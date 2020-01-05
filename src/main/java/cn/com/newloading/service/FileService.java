@@ -20,20 +20,20 @@ public interface FileService {
 	 */
 	List<FileBean> queryFiles(String id,String name,String extend,String state,String type);
 	
-	/**
-	 * 查看学生作业
-	 * @param id
-	 * @return
-	 */
-	List<FileBean> queryStudentWorks(String id);
+//	/**
+//	 * 查看学生作业
+//	 * @param id
+//	 * @return
+//	 */
+//	List<FileBean> queryStudentWorks(String id);
 	
 	/**
-	 * 根据课程记录ID获取文件ID,type为课件/作业
-	 * @param clId
-	 * @param type
+	 * 查看该节课程的文件;查看学生作业
+	 * @param cId
+	 * @param state 待审核 、通过 、  驳回 、 学生
 	 * @return
 	 */
-	List<String> selectFileIdByclId(String clId,String type);
+	List<FileBean> selectFileIdByclId(String cId,String state);
 	
 	/**
 	 * 文件上传

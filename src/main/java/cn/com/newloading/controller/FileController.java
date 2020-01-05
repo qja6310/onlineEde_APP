@@ -64,23 +64,13 @@ public class FileController {
 		return json;
 	}
 
-	@RequestMapping("/queryStudentWorks")
-	@ResponseBody
-	public JSONObject queryStudentWorks(HttpServletRequest request) {
-		JSONObject json = new JSONObject();
-		String clId = request.getParameter("courseLogId");
-		List<FileBean> list = fService.queryStudentWorks(clId);
-		json.put("list", list);
-		return json;
-	}
-
 	@RequestMapping("/selectFileIdByclId")
 	@ResponseBody
 	public JSONObject selectFileIdByclId(HttpServletRequest request) {
 		JSONObject json = new JSONObject();
 		String clId = request.getParameter("courseLogId");
-		String type = request.getParameter("fileType");// 课件/作业
-		List<String> list = fService.selectFileIdByclId(clId, type);
+		String state = request.getParameter("fileState");//待审核 、通过 、  驳回 、 学生
+		List<FileBean> list = fService.selectFileIdByclId(clId,state);
 		json.put("list", list);
 		return json;
 	}

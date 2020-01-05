@@ -78,13 +78,22 @@
     	</where>
     </select>
     
-    <select id="selectFileIdByclId" resultType="string">
-		SELECT DISTINCT fcl.F_ID fId,
+    <select id="selectFileIdByclId" resultType="cn.com.newloading.bean.FileBean">
+		SELECT DISTINCT 
+		fcl.F_ID id,
+		f.F_NAME fname,
+		f.F_UUID_NAME fuuidName,
+		f.F_EXTEND fextend,
+		f.F_PATH fpath,
+		f.F_STATE fstate,
+		f.F_TYPE ftype,
+		f.F_TIME ftime
 		FROM t_file_curriculum_log fcl
 		INNER JOIN t_file f ON f.F_ID=fcl.F_ID
 		<where>
 			<if test="clId != null and clId !=''">AND fcl.CL_ID= #{id}</if>
-			<if test="type != null and type !=''">AND f.F_TYPE= #{type}</if>
+			<if test="fstate != null and fstate != ''"> AND f.F_STATE = #{id}</if>
+			AND f.F_TYPE != '删除'
 		</where>
 	</select>
     

@@ -18,20 +18,20 @@ public interface FileDao {
 	 */
 	List<FileBean> queryFile(FileBean f);
 	
+//	/**
+//	 * 查看学生作业
+//	 * @param id
+//	 * @return
+//	 */
+//	List<FileBean> queryStudentWorks(@Param("id")String id);
+
 	/**
-	 * 查看学生作业
-	 * @param id
-	 * @return
-	 */
-	List<FileBean> queryStudentWorks(@Param("id")String id);
-	
-	/**
-	 * 根据课程记录ID获取文件ID
+	 * 查看该节课程的文件;查看学生作业
 	 * @param cId
-	 * @param type
+	 * @param state 待审核 、通过 、  驳回 、 学生
 	 * @return
 	 */
-	List<String> selectFileIdByclId(@Param("cId")String cId,@Param("type")String type);
+	List<FileBean> selectFileIdByclId(@Param("cId")String cId,@Param("state")String state);
 	
 	/**
 	 * 教师发布文件
