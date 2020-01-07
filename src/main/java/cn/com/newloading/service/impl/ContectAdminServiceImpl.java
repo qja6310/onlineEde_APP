@@ -126,7 +126,7 @@ public class ContectAdminServiceImpl implements ContectAdminService {
 					dtoList.add(dto);
 				}else if(RoleType.TEA.getRole().equals(ca.getForeignType())){
 					Teacher teacher = teacherDao.queryTeacherById((cadm.getForeignId()));
-					cad.setContectAdmin(cadm);
+					cad.setContectAdmin(ca);
 					cad.setRole(teacher);
 					dtoList.add(cad);
 				}
