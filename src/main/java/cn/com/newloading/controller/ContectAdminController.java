@@ -17,6 +17,7 @@ import cn.com.newloading.bean.Admin;
 import cn.com.newloading.bean.ContectAdmin;
 import cn.com.newloading.bean.Dict;
 import cn.com.newloading.bean.Student;
+import cn.com.newloading.bean.Teacher;
 import cn.com.newloading.bean.dto.ContectAdminDto;
 //import cn.com.newloading.bean.Teacher;
 import cn.com.newloading.enums.RoleType;
@@ -111,11 +112,11 @@ public class ContectAdminController {
 	public JSONObject teaSysQuestion(HttpServletRequest request, @RequestBody Map<String, Object> params) {
 		ContectAdmin contectAdmin = new ContectAdmin();
 		contectAdmin.setForeignType(RoleType.TEA.getRole());
-//		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
-//		if(null == teacher || "".equals(teacher.getId())) {
-//			return responseMsg("TEA00006", "TEACHER");
-//		}
-//		contectAdmin.setForeignId(teacher.getId());
+		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
+		if(null == teacher || "".equals(teacher.getId())) {
+			return responseMsg("TEA00006", "TEACHER");
+		}
+		contectAdmin.setForeignId(teacher.getId());
 		// 消息内容
 		String content = (String) params.get("content");
 		if (StringUtil.isBlank(content)) {
@@ -140,11 +141,11 @@ public class ContectAdminController {
 	public JSONObject teaReplySysMsg(HttpServletRequest request, @RequestBody Map<String, Object> params) {
 		ContectAdmin contectAdmin = new ContectAdmin();
 		contectAdmin.setForeignType(RoleType.TEA.getRole());
-//		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
-//		if(null == teacher || "".equals(teacher.getId())) {
-//			return responseMsg("TEA00006", "TEACHER");
-//		}
-//		contectAdmin.setForeignId(teacher.getId());
+		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
+		if(null == teacher || "".equals(teacher.getId())) {
+			return responseMsg("TEA00006", "TEACHER");
+		}
+		contectAdmin.setForeignId(teacher.getId());
 		// 父级id，属于哪个问题下的，如果是问题说明为空
 		String pid = (String) params.get("pid");
 		if (StringUtil.isBlank(pid)) {
