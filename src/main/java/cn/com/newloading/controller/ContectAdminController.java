@@ -296,11 +296,11 @@ public class ContectAdminController {
 		ContectAdmin contectAdmin = new ContectAdmin();
 		contectAdmin.setForeignType(RoleType.TEA.getRole());
 		contectAdmin.setType("1");
-//		Student student = (Student) request.getSession().getAttribute("student");
-//		if (null == student || "".equals(student.getId())) {
-//			return responseMsg("STU00006", "STUDENT");
-//		}
-//		contectAdmin.setForeignId(student.getId());
+		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
+		if (null == teacher || "".equals(teacher.getId())) {
+			return responseMsg("TEA00006", "TEACHER");
+		}
+		contectAdmin.setForeignId(teacher.getId());
 		List<ContectAdminDto> caList = caService.queryContectAdmin(contectAdmin);
 		json.put("contectAdminList", caList);
 		return json;
