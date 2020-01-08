@@ -125,7 +125,7 @@ public class FileController {
 //		String fileType = request.getParameter("fileType");// TODO 课件/作业
 //		String cId = request.getParameter("currimlumId");
 		String fileType = (String) params.get("fileType");// TODO 课件/作业
-		String cId = (String) params.get("currimlumId");
+		String clId = (String) params.get("currimlumLogId");
 		String root = "D:\\Games\\upload\\";
 		File file1 = new File(root);
 		if (!file1.exists()) {
@@ -165,14 +165,14 @@ public class FileController {
 				f.setFuuidName(uuidStr + extendName);
 				f.setFextend(extendName);
 				f.setFpath(root);
-				f.setFstate("待审核");
+				f.setFstate("通过");
 				f.setFtype(fileType);
 				String fTime = TimeUtil.dateToString(new Date());
 				f.setFtime(fTime);
 				f.setCommitId(teacher.getId());
 				int result = fService.addFile(f);// 插入文件表
 				if (result > 0) {
-					int result2 = fService.fileLinkCurriculum(cId, uuidStr + extendName);
+					int result2 = fService.fileLinkCurriculum(clId, uuidStr + extendName);
 					if (result2 > 0) {// 插入文件-课程关联表
 						FileUtils.writeByteArrayToFile(new File(fileName), content);
 						json.put("code", "1");
