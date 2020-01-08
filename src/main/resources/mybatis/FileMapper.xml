@@ -45,9 +45,9 @@
     
     <select id="queryFile" parameterType="cn.com.newloading.bean.FileBean" resultMap="fileMap1">
     	SELECT DISTINCT f.F_ID,f.F_NAME,f.F_UUID_NAME,f.F_EXTEND,f.F_PATH,f.F_STATE,f.F_TYPE,f.F_CHECK_TIME,
-    	f.F_TIME,f.T_ID,tea.NAME,f.A_ID,a.ADM_NAME
+    	f.F_TIME,f.COMMOIT_ID,tea.NAME,f.A_ID,a.ADM_NAME
     	FROM t_file f
-    	INNER JOIN t_teacher tea ON tea.ID=f.T_ID
+    	INNER JOIN t_teacher tea ON tea.ID=f.COMMOIT_ID
     	INNER JOIN t_admin a ON a.ID=f.A_ID  
     	<where>
 	    	<if test="id != null and id != ''"> AND f.F_ID = #{id}</if>
