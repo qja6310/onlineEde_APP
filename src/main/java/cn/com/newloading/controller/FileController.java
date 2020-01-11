@@ -74,12 +74,12 @@ public class FileController {
 
 	@RequestMapping("/selectFileIdByclId")
 	@ResponseBody
-	public JSONObject selectFileIdByclId(HttpServletRequest request) {//,@RequestBody Map<String, Object> params
+	public JSONObject selectFileIdByclId(HttpServletRequest request,@RequestBody Map<String, Object> params) {//,@RequestBody Map<String, Object> params
 		JSONObject json = new JSONObject();
-		String clId = request.getParameter("courseLogId");
-		String state = request.getParameter("fileState");//待审核 、通过 、  驳回 、 学生
-//		String clId = (String) params.get("courseLogId");
-//		String state = (String) params.get("fileState");//待审核 、通过 、  驳回 、 学生
+//		String clId = request.getParameter("courseLogId");
+//		String state = request.getParameter("fileState");//待审核 、通过 、  驳回 、 学生
+		String clId = (String) params.get("courseLogId");
+		String state = (String) params.get("fileState");//待审核 、通过 、  驳回 、 学生
 		List<FileBean> list = fService.selectFileIdByclId(clId,state);
 		json.put("list", list);
 		return json;
