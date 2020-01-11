@@ -77,6 +77,11 @@ public class FileServiceImpl implements FileService {
 		return fDao.delTea(f);
 	}
 
+	@Override
+	public String getFileId(String fuuid) {
+		return fDao.getFileId(fuuid);
+	}
+
 
 
 }

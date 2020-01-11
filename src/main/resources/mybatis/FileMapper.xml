@@ -96,5 +96,12 @@
 			AND f.F_TYPE != '删除'
 		</where>
 	</select>
+	
+	 <select id="getFileId" resultType="string">
+		SELECT F_ID FROM t_file
+		<where>
+			<if test="fuuid != null and fuuid !=''">AND F_UUID_NAME= #{fuuid}</if>
+		</where>
+	</select>
     
 </mapper>

@@ -54,12 +54,15 @@ public class CurriculumLogController {
 
 	@RequestMapping("/queryCurriculumLog")
 	@ResponseBody
-	public JSONObject queryCurriculumLog(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+	public JSONObject queryCurriculumLog(HttpServletRequest request,@RequestBody Map<String, Object> params) {//
 		JSONObject json = new JSONObject();
 //		String cId = request.getParameter("courseId");
 		String cId = (String) params.get("courseId");
-		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
-		List<CurriculumLog> list = service.queryCurriculumLog(cId, teacher.getId());
+		String tId="";
+		if(cId!=null && !"".equals(cId)) {
+			tId=service.getTeacherIdBycId(cId);//教师ID
+		}
+		List<CurriculumLog> list = service.queryCurriculumLog(cId, tId);
 		json.put("list", list);
 		return json;
 	}

@@ -19,6 +19,13 @@ public interface CurriculumLogDao {
 	Integer addCurriculumLog(CurriculumLog c);
 	
 	/**
+	 * 根据课程ID查询教师ID
+	 * @param cId
+	 * @return
+	 */
+	String getTeacherIdBycId(@Param("cId")String cId);
+	
+	/**
 	 * 查看课程章节
 	 * @param tId 教师ID
 	 * @param cId 课程ID

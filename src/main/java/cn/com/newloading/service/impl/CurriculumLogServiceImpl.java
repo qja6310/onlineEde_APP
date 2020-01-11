@@ -75,6 +75,11 @@ public class CurriculumLogServiceImpl implements CurriculumLogService {
 		return dao.studentAttendCount(cId);
 	}
 
+	@Override
+	public String getTeacherIdBycId(String cId) {
+		return dao.getTeacherIdBycId(cId);
+	}
+
 	
 	
 	

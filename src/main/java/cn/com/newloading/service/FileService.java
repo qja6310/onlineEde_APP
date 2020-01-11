@@ -20,6 +20,7 @@ public interface FileService {
 	 */
 	List<FileBean> queryFiles(String id,String name,String extend,String state,String type);
 	
+	
 //	/**
 //	 * 查看学生作业
 //	 * @param id
@@ -65,4 +66,11 @@ public interface FileService {
 	 * @return
 	 */
 	Integer delFile(String fId,String type);
+	
+	/**
+	 * 根据uuId返回文件Id
+	 * @param fuuid
+	 * @return
+	 */
+	String getFileId(String fuuid);
 }

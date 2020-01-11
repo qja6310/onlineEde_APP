@@ -23,10 +23,13 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
@@ -71,12 +74,12 @@ public class FileController {
 
 	@RequestMapping("/selectFileIdByclId")
 	@ResponseBody
-	public JSONObject selectFileIdByclId(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+	public JSONObject selectFileIdByclId(HttpServletRequest request) {//,@RequestBody Map<String, Object> params
 		JSONObject json = new JSONObject();
-//		String clId = request.getParameter("courseLogId");
-//		String state = request.getParameter("fileState");//待审核 、通过 、  驳回 、 学生
-		String clId = (String) params.get("courseLogId");
-		String state = (String) params.get("fileState");//待审核 、通过 、  驳回 、 学生
+		String clId = request.getParameter("courseLogId");
+		String state = request.getParameter("fileState");//待审核 、通过 、  驳回 、 学生
+//		String clId = (String) params.get("courseLogId");
+//		String state = (String) params.get("fileState");//待审核 、通过 、  驳回 、 学生
 		List<FileBean> list = fService.selectFileIdByclId(clId,state);
 		json.put("list", list);
 		return json;
@@ -118,14 +121,20 @@ public class FileController {
 
 	@RequestMapping("/fileUpload")
 	@ResponseBody
-	public JSONObject fileUpload(HttpServletRequest request,@RequestBody Map<String, Object> params) {
+	public JSONObject fileUpload(HttpServletRequest request,@RequestParam("myfile") MultipartFile file,
+			@RequestParam("fileType")String fileType ,@RequestParam("currimlumLogId")String clId) {
 		JSONObject json = new JSONObject();
 		// 教师ID
 		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
-//		String fileType = request.getParameter("fileType");// TODO 课件/作业
-//		String cId = request.getParameter("currimlumId");
-		String fileType = (String) params.get("fileType");// TODO 课件/作业
-		String clId = (String) params.get("currimlumLogId");
+		//ftp服务器
+//		FTPClient ftpClient = new FTPClient();
+//		ftpClient.setControlEncoding("GBK");
+//		
+//		String hostname = "60.205.214.138";
+//		int port = 22;
+//		String username = "root";
+//		String password = "L271064002.";
+		
 		String root = "D:\\Games\\upload\\";
 		File file1 = new File(root);
 		if (!file1.exists()) {
@@ -138,18 +147,33 @@ public class FileController {
 
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		try {
-			StandardMultipartHttpServletRequest req = (StandardMultipartHttpServletRequest) request;
+//			ftpClient.connect(hostname, port);
+//			//登录ftp
+//			ftpClient.login(username, password);
+//			int  reply = ftpClient.getReplyCode();  
+//			System.out.println(reply);
+//			//如果reply返回230就算成功了，如果返回530密码用户名错误或当前用户无权限下面有详细的解释。
+//			if (!FTPReply.isPositiveCompletion(reply)) {  
+//	            	ftpClient.disconnect();  
+//	                System.exit(0);//终结程序
+//			}
+//			ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+//			ftpClient.makeDirectory("path");//在root目录下创建文件夹
+			 
+			 
+//			StandardMultipartHttpServletRequest req = (StandardMultipartHttpServletRequest) request;
 			// 遍历普通参数（即formData的fileName和fileSize）
-			Enumeration<String> names = req.getParameterNames();
-			while (names.hasMoreElements()) {
-				String key = names.nextElement();
-				String val = req.getParameter(key);
-				System.out.println("FormField：k=" + key + "v=" + val);
-			}
+//			Enumeration<String> names = req.getParameterNames();
+//			while (names.hasMoreElements()) {
+//				String key = names.nextElement();
+//				String val = req.getParameter(key);
+//				System.out.println("FormField：k=" + key + "v=" + val);
+//			}
 			// 遍历文件参数（即formData的file）
-			Iterator<String> iterator = req.getFileNames();
-			while (iterator.hasNext()) {
-				MultipartFile file = req.getFile(iterator.next());
+//			Iterator<String> iterator = req.getFileNames();
+//			while (iterator.hasNext()) {
+//				MultipartFile file = req.getFile(iterator.next());
+			if(!file.isEmpty()) {//文件不为空
 				String fileNames = file.getOriginalFilename();
 				// 文件名
 				fileNames = new String(fileNames.getBytes("UTF-8"));
@@ -169,17 +193,23 @@ public class FileController {
 				f.setFtype(fileType);
 				String fTime = TimeUtil.dateToString(new Date());
 				f.setFtime(fTime);
-				f.setCommitId(teacher.getId());
+				f.setCommitId(teacher.getId());//截取ID
 				int result = fService.addFile(f);// 插入文件表
 				if (result > 0) {
-					int result2 = fService.fileLinkCurriculum(clId, uuidStr + extendName);
+					String fId=fService.getFileId(uuidStr+extendName);
+					int result2 = fService.fileLinkCurriculum(clId, fId);
 					if (result2 > 0) {// 插入文件-课程关联表
 						FileUtils.writeByteArrayToFile(new File(fileName), content);
 						json.put("code", "1");
 						return json;
 					}
 				}
+			}else {
+				json.put("code", "2");//请选择文件
+				return json;
 			}
+
+//			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -190,13 +220,11 @@ public class FileController {
 
 	@RequestMapping("/fileStuCommit")
 	@ResponseBody
-	public JSONObject fileStuCommit(HttpServletRequest request,@RequestBody Map<String, Object> params) {// ,@RequestBody Map<String, Object> params
+	public JSONObject fileStuCommit(HttpServletRequest request,@RequestParam("myfile") MultipartFile file,@RequestParam("currimlumLogId")String clId) {
 		JSONObject json = new JSONObject();
 
 		Student student = (Student) request.getSession().getAttribute("student");
-//		String clId = request.getParameter("currimlumLogId");
-		String clId = (String) params.get("currimlumLogId");
-		String root = "D:\\Games\\studentWork\\";// 作业提交路径
+		String root = "D:\\Games\\upload\\";// 作业提交路径
 		File file1 = new File(root);
 		if (!file1.exists()) {
 			file1.mkdir();
@@ -208,18 +236,6 @@ public class FileController {
 
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		try {
-			StandardMultipartHttpServletRequest req = (StandardMultipartHttpServletRequest) request;
-			// 遍历普通参数（即formData的fileName和fileSize）
-			Enumeration<String> names = req.getParameterNames();
-			while (names.hasMoreElements()) {
-				String key = names.nextElement();
-				String val = req.getParameter(key);
-				System.out.println("FormField：k=" + key + "v=" + val);
-			}
-			// 遍历文件参数（即formData的file）
-			Iterator<String> iterator = req.getFileNames();
-			while (iterator.hasNext()) {
-				MultipartFile file = req.getFile(iterator.next());
 				String fileNames = file.getOriginalFilename();
 				// 文件名
 				fileNames = new String(fileNames.getBytes("UTF-8"));
@@ -240,7 +256,8 @@ public class FileController {
 				f.setFtime(fTime);
 				int result = fService.addFile(f);// 插入文件表
 				if (result > 0) {
-					int result2 = fService.fileLinkCurriculum(clId, uuidStr + extendName);
+					String fId=fService.getFileId(uuidStr+extendName);
+					int result2 = fService.fileLinkCurriculum(clId,fId);
 					if (result2 > 0) {// 插入文件-课程关联表
 						int resultCommit = cService.stuCommitHomework("提交", fTime, student.getId(), clId);
 						if (resultCommit > 0) {
@@ -250,7 +267,6 @@ public class FileController {
 						}
 					}
 				}
-			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -261,11 +277,10 @@ public class FileController {
 
 	@RequestMapping("/fileDownload")
 	@ResponseBody
-	public JSONObject downLoadFile(HttpServletRequest request, HttpServletResponse response,@RequestBody Map<String, Object> params) {
+	public JSONObject downLoadFile(HttpServletRequest request, HttpServletResponse response,@RequestParam("filename")String testTxt) {
 		JSONObject json = new JSONObject();
-
+System.out.println("你好 ");
 //		String testTxt = request.getParameter("filename");
-		String testTxt = (String) params.get("filename");
 		String path = "D:\\Games\\upload\\" + testTxt;
 		String fileName = path.substring(path.lastIndexOf("\\") + 1);
 		try {

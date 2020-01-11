@@ -61,4 +61,11 @@ public interface FileDao {
 	 */
 	Integer delTea(FileBean f);
 	
+	/**
+	 * 根据uuId返回文件Id
+	 * @param fuuid
+	 * @return
+	 */
+	String getFileId(@Param("fuuid")String fuuid);
+	
 }
