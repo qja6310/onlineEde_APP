@@ -74,12 +74,12 @@ public class FileController {
 
 	@RequestMapping("/selectFileIdByclId")
 	@ResponseBody
-	public JSONObject selectFileIdByclId(HttpServletRequest request,@RequestBody Map<String, Object> params) {//,@RequestBody Map<String, Object> params
+	public JSONObject selectFileIdByclId(HttpServletRequest request,@RequestBody Map<String, Object> params) {//
 		JSONObject json = new JSONObject();
-//		String clId = request.getParameter("courseLogId");
-//		String state = request.getParameter("fileState");//待审核 、通过 、  驳回 、 学生
-		String clId = (String) params.get("courseLogId");
-		String state = (String) params.get("fileState");//待审核 、通过 、  驳回 、 学生
+		String clId = request.getParameter("courseLogId");
+		String state = request.getParameter("fileState");//待审核 、通过 、  驳回 、 学生
+//		String clId = (String) params.get("courseLogId");
+//		String state = (String) params.get("fileState");//待审核 、通过 、  驳回 、 学生
 		List<FileBean> list = fService.selectFileIdByclId(clId,state);
 		json.put("list", list);
 		return json;
@@ -277,15 +277,14 @@ public class FileController {
 
 	@RequestMapping("/fileDownload")
 	@ResponseBody
-	public JSONObject downLoadFile(HttpServletRequest request, HttpServletResponse response,@RequestParam("filename")String testTxt) {
+	public JSONObject downLoadFile(HttpServletResponse response,@RequestParam("fileuuid")String testTxt,@RequestParam("filename")String fname) {
 		JSONObject json = new JSONObject();
-System.out.println("你好 ");
 //		String testTxt = request.getParameter("filename");
 		String path = "D:\\Games\\upload\\" + testTxt;
-		String fileName = path.substring(path.lastIndexOf("\\") + 1);
+//		String fileName = path.substring(path.lastIndexOf("\\") + 1);
 		try {
 			// 修改应答的header信息,让浏览器下载这个链接
-			response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+			response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(fname, "UTF-8"));
 			InputStream in = new FileInputStream(path);
 			byte[] buff = new byte[1024];
 			int len = 0;

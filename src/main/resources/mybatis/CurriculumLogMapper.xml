@@ -26,6 +26,7 @@
 		<where>
 			<if test="cId != null and cId !=''">AND C_ID= #{cId}</if>
 		</where>
+		limit 1
 	</select>
 	
 	<!-- 发布课程通知 -->
