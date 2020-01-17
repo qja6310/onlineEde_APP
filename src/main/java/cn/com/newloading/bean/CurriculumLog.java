@@ -10,6 +10,8 @@ public class CurriculumLog {
 	private String time;
 	private String tId;
 	
+	private StudentCurriculumLog stuCurriculumLog;
+	
 	public CurriculumLog() {
 		// TODO Auto-generated constructor stub
 	}
@@ -68,6 +70,14 @@ public class CurriculumLog {
 
 	public void settId(String tId) {
 		this.tId = tId;
+	}
+
+	public StudentCurriculumLog getStuCurriculumLog() {
+		return stuCurriculumLog;
+	}
+
+	public void setStuCurriculumLog(StudentCurriculumLog stuCurriculumLog) {
+		this.stuCurriculumLog = stuCurriculumLog;
 	}
 	
 }

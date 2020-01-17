@@ -29,9 +29,10 @@ public interface CurriculumLogDao {
 	 * 查看课程章节
 	 * @param tId 教师ID
 	 * @param cId 课程ID
+	 * @param sId 学生ID
 	 * @return
 	 */
-	List<CurriculumLog> queryCurriculumLog(@Param("cId")String cId,@Param("tId")String tId);
+	List<CurriculumLog> queryCurriculumLog(@Param("cId")String cId,@Param("tId")String tId,@Param("sId")String sId);
 	
 	/**
 	 * 设置作业提交时间

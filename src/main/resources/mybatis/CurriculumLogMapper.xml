@@ -11,12 +11,18 @@
 		<result column="CL_STATE" property="state" />
 		<result column="CL_TIME" property="time" />
 		<result column="T_ID" property="tId" />
+		<association property="stuCurriculumLog" javaType="cn.com.newloading.bean.StudentCurriculumLog">
+			<result property="id" column="SCL_ID"/>
+			<result property="hwScore" column="SCL_HW_SCORE"/>
+		</association>
 	</resultMap>
     <select id="queryCurriculumLog" resultMap="map">
-		SELECT CL_ID,C_ID,CL_TASK_TIME,CL_NOTICE,CL_STATE,CL_TIME,T_ID FROM t_curriculum_log  
+		SELECT DISTINCT cl.CL_ID,cl.C_ID,cl.CL_TASK_TIME,cl.CL_NOTICE,cl.CL_STATE,cl.CL_TIME,cl.T_ID,scl.SCL_ID,scl.SCL_HW_SCORE FROM t_curriculum_log cl
+		INNER JOIN t_stu_curriculum_log scl	ON scl.CL_ID=cl.CL_ID
 		<where>
-			<if test="cId != null and cId !=''">AND C_ID= #{cId}</if>
-			<if test="tId != null and tId !=''">AND T_ID= #{tId}</if>
+			<if test="cId != null and cId !=''">AND cl.C_ID= #{cId}</if>
+			<if test="tId != null and tId !=''">AND cl.T_ID= #{tId}</if>
+			<if test="sId != null and sId !=''">AND scl.S_ID= #{sId}</if>
 		</where>
 	</select>
 	

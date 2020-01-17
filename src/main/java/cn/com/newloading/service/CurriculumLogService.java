@@ -30,9 +30,10 @@ public interface CurriculumLogService {
 	 * 查看课程章节
 	 * @param cId 教师ID
 	 * @param tId 课程ID
+	 * @param sId 学生ID
 	 * @return
 	 */
-	List<CurriculumLog> queryCurriculumLog(String cId,String tId);
+	List<CurriculumLog> queryCurriculumLog(String cId,String tId,String sId);
 	
 	/**
 	 * 设置作业最晚提交时间

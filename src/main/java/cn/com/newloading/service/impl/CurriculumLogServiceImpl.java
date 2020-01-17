@@ -27,8 +27,8 @@ public class CurriculumLogServiceImpl implements CurriculumLogService {
 	}
 
 	@Override
-	public List<CurriculumLog> queryCurriculumLog(String cId, String tId) {
-		return dao.queryCurriculumLog(cId, tId);
+	public List<CurriculumLog> queryCurriculumLog(String cId, String tId,String sId) {
+		return dao.queryCurriculumLog(cId, tId,sId);
 	}
 
 	@Override
